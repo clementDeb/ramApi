@@ -1,10 +1,11 @@
-package com.ram.api.service;
+package com.ram.api.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.persistance.UserEntity;
-import com.ram.api.persistance.UserRepository;
+import com.ram.api.repositories.UserRepository;
+import com.ram.api.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService{
