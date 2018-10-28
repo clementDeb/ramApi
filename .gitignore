@@ -2,7 +2,7 @@
 *.class
 
 # building
-target
+target/
 build
 tmp
 dist
@@ -12,9 +12,11 @@ dist
 .classpath
 .project
 .cache
+.eclipse
 
 # Log file
 *.log
+*.logs
 
 # BlueJ files
 *.ctxt
