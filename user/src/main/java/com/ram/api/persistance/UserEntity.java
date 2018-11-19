@@ -1,21 +1,19 @@
 package com.ram.api.persistance;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Table;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper=true)
+@Entity
 @DynamicUpdate(true)
-@Table(appliesTo = "user")
+@Table(name="user")
 public class UserEntity extends PersonEntity{
 
 	/**
