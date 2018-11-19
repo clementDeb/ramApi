@@ -13,6 +13,7 @@ dist
 .project
 .cache
 .eclipse
+.properties
 
 #server
 Servers/
