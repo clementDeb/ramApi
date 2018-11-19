@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ram.api.model.User;
+import com.ram.api.model.superclass.Person;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.Converter;
 import com.ram.api.service.UserService;
-import com.ram.api.user.model.User;
 
 @RestController
 @ComponentScan("com.ram.api.user")
@@ -23,20 +24,31 @@ public class Controller {
 	Converter converter;
 	
     @RequestMapping(value="/users", method=RequestMethod.POST)
-    public User createAccount(@RequestParam String login,
+    public Person createUser(@RequestParam String login,
     		@RequestParam String password,
     		@RequestParam String nickName) {
-    	User user = new User();
-    	user.setLogin(login);
-    	user.setPassword(password);
-    	user.setNickName(nickName);
+    	Person user = new User(login, password);
     	
-    	UserEntity entity = converter.userToUserEntity(user);   
+    	UserEntity entity = (UserEntity) converter.dtoToEntity(user);   
     	entity = userService.createAccount(entity);
     	
-    	user = converter.userEntityToUser(entity);
+    	user = (User) converter.entityToDto(entity);
 
         return user;
+    }
+    
+    @RequestMapping(value="/users", method=RequestMethod.GET)
+    public User retrieveUser (@RequestParam String login) {
+    	return null;
+    }
+    
+    @RequestMapping(value="/users", method=RequestMethod.PUT)
+    public User updateUser (@RequestParam String login) {
+    	return null;
+    }
+    
+    @RequestMapping(value="/users", method=RequestMethod.DELETE)
+    public void deleteUser (@RequestParam String login) {
     }
 
 }
