@@ -1,4 +1,4 @@
-package com.ram.api.user.model;
+package com.ram.api.model;
 
 import java.io.Serializable;
 
