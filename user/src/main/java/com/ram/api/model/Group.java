@@ -13,10 +13,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=true)
 public class Group extends Attachment{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	@ToString.Exclude
 	private List<Person> contactList;
 	private User user;

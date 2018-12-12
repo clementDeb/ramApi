@@ -12,10 +12,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=true)
 public class PointOfInterest extends Attachment{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Adress adress;
 	@ToString.Exclude
 	private List<Comment> listComment;

@@ -14,10 +14,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=true)
 public class Event extends Attachment{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private Adress adress;
 	private LocalDateTime eventDate;
 	@ToString.Exclude

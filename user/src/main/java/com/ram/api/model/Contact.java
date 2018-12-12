@@ -12,10 +12,7 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper=true)
 public class Contact extends Person {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
 	@ToString.Exclude
 	private List<ContactMeaning> contactMeaningList;
 	private LocalDateTime addedDate;

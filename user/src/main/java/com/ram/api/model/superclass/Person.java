@@ -1,6 +1,5 @@
 package com.ram.api.model.superclass;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.ram.api.model.Adress;
@@ -13,12 +12,7 @@ import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Person implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Person{
 
 	@EqualsAndHashCode.Include
 	@Setter(AccessLevel.NONE)

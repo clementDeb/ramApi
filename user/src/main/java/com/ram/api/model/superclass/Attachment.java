@@ -1,6 +1,5 @@
 package com.ram.api.model.superclass;
 
-import java.io.Serializable;
 
 import lombok.AccessLevel;
 import lombok.Data;
@@ -9,12 +8,8 @@ import lombok.Setter;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded=true)
-public class Attachment implements Serializable{
+public class Attachment{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	@EqualsAndHashCode.Include
 	@Setter(AccessLevel.NONE)
 	public int id;

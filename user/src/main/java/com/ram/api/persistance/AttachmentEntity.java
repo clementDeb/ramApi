@@ -28,7 +28,7 @@ public abstract class AttachmentEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
-	@Column(name="attachmentType")
+	@Column(name="id")
 	public int id;
 	@Column(name="attachmentType")
 	public AttachmentType type;

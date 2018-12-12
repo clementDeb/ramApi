@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,9 +19,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import lombok.Data;
 
 @Data
-@Table
-@Entity
 @DynamicUpdate(true)
+@Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public class PersonEntity implements Serializable{
 	

@@ -1,8 +1,11 @@
 package com.ram.api.serviceImpl;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ram.api.exception.UserException;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.superclass.PersonRepository;
 import com.ram.api.service.UserService;
@@ -19,10 +22,15 @@ public class UserServiceImpl implements UserService{
 	PersonRepository<UserEntity> userRepository;
 
 	@Override
+	@Transactional
 	public UserEntity createAccount(UserEntity user) {
 		log.debug("in userServiceImpl");
 		UserEntity userSaved = new UserEntity();
-		userSaved = userRepository.save(user);
+		try {
+			userSaved = userRepository.save(user);
+		} catch (Exception e) {
+			log.error("ERROR while saving the user");
+		}
 		return userSaved;
 	}
 

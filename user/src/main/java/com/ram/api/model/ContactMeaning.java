@@ -1,18 +1,13 @@
 package com.ram.api.model;
 
-import java.io.Serializable;
 
 import lombok.EqualsAndHashCode;
 import lombok.Data;
 
 @Data
 @EqualsAndHashCode()
-public class ContactMeaning implements Serializable{
+public class ContactMeaning{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	/**
 	 * contact type (phone, mail ...)
 	 */
