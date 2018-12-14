@@ -17,7 +17,7 @@ public class ConverterTest {
 	public void userToUserEntityTest() {
 		Person user = new User("test", "test");
 		
-		PersonEntity entity = Converter.INSTANCE.dtoToEntity(user);
+		PersonEntity entity = Converter.INSTANCE.toPersonEntity(user);
 		
 		assertEquals(entity.getFirstName(), user.getFirstName());
 		assertEquals(entity.getLastName(), user.getLastName());

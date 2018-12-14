@@ -2,6 +2,7 @@ package com.ram.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ram.api.model.User;
 import com.ram.api.model.superclass.Person;
+import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.Converter;
 import com.ram.api.service.UserService;
@@ -22,13 +24,13 @@ public class Controller {
 	@Autowired
 	UserService userService;
 	
-//	@Autowired
-//	Converter converter;
+	@Autowired
+	Converter converter;
 	
 	@ResponseBody
-    @RequestMapping(value="/users", method=RequestMethod.POST)
-    public Person createUser(@RequestBody User user) {    	
-    	UserEntity entity = (UserEntity) Converter.INSTANCE.dtoToEntity(user);   
+    @RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Person createUser(@RequestBody User user) {  
+    	UserEntity entity = (UserEntity) converter.toPersonEntity(user);   
     	entity = userService.createAccount(entity);
     	user = (User) Converter.INSTANCE.entityToDto(entity);
 

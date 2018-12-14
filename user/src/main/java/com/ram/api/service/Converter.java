@@ -3,25 +3,41 @@ package com.ram.api.service;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
+import com.ram.api.model.User;
 import com.ram.api.model.superclass.Person;
 import com.ram.api.persistance.PersonEntity;
+import com.ram.api.persistance.UserEntity;
 
-@Mapper
+@Mapper(componentModel="spring")
 public interface Converter {
 	
 	//Not used if CDI is done with Spring
 	Converter INSTANCE = Mappers.getMapper(Converter.class);
 	
+	default PersonEntity toPersonEntity(Person person) {
+		if (person instanceof User) {
+			return dtoToEntity((User)person);
+		}
+		return null;
+	}
+	
+	default Person toPerson(PersonEntity entity) {
+		if (entity instanceof UserEntity) {
+			return entityToDto((UserEntity)entity);
+		}
+		return null;
+	}
+	
 	/**Method to convert an entity into a dto
 	 * @param user
 	 * @return the converted entity into dto
 	 */
-	Person entityToDto(PersonEntity entity);
+	User entityToDto(UserEntity entity);
 	
 	/**Method to convert a dto into an entity
 	 * @param user
 	 * @returnthe converted dto into entity
 	 */
-	PersonEntity dtoToEntity(Person dto);
+	UserEntity dtoToEntity(User dto);
 
 }

@@ -22,6 +22,7 @@ import lombok.Data;
 @DynamicUpdate(true)
 @Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@Table(name="person")
 public class PersonEntity implements Serializable{
 	
 	/**
@@ -36,7 +37,9 @@ public class PersonEntity implements Serializable{
 	private String lastName;
 	@Column(name="firstName")
 	private String firstName;
-	@Column(name="credationDate")
+	@Column(name="NICKNAME")
+	private String nickName;
+	@Column(name="creationDate")
 	private LocalDateTime creationDate;
 //	@OneToMany
 //	List<AdressEntity> adresses;

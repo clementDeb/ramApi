@@ -22,8 +22,6 @@ public class UserEntity extends PersonEntity{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Column(name="NICKNAME")
-	private String nickName;
 	@Column(name="LOGIN")
 	private String login;
 	@Column(name="PASSWORD")
