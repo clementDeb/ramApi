@@ -12,5 +12,7 @@ public interface UserService {
 	public UserEntity createAccount (UserEntity user);
 	
 	public UserEntity retrieveUser (String login);
+	
+	public UserEntity updateUser (UserEntity user);
 
 }

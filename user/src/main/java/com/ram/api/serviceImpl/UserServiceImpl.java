@@ -17,8 +17,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class UserServiceImpl implements UserService{
 	
-	//private final Logger log = LogManager.getLogger(UserServiceImpl.class);
-	
 	@Autowired
 	PersonRepository<UserEntity> userRepository;
 
@@ -41,6 +39,13 @@ public class UserServiceImpl implements UserService{
 		UserEntity userRetrieved = new UserEntity();
 		userRetrieved = userRepository.findUserByLogin(login);
 		return userRetrieved;
+	}
+
+	@Override
+	public UserEntity updateUser(UserEntity user) {
+		UserEntity userSaved = new UserEntity();
+		userSaved = userRepository.save(user);
+		return userSaved;
 	}
 
 }

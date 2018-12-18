@@ -29,24 +29,26 @@ public class Controller {
 	
 	@ResponseBody
     @RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Person createUser(@RequestBody User user) {  
-    	PersonEntity entity = (UserEntity) converter.toPersonEntity(user);
-    	entity = userService.createAccount((UserEntity)entity);
-    	Person userDB = (User) Converter.INSTANCE.toPerson(entity);
-
+    public User createUser(@RequestBody User user) {  
+    	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
+    	entity = userService.createAccount(entity);
+    	User userDB = (User) converter.toPerson(entity);
         return userDB;
     }
     
     @RequestMapping(value="/users", method=RequestMethod.GET)
     public User retrieveUser (@RequestParam String login) {
     	UserEntity entity = userService.retrieveUser(login);
-    	User user = (User) Converter.INSTANCE.toPerson(entity);
+    	User user = (User) converter.toPerson(entity);
     	return user;
     }
     
     @RequestMapping(value="/users", method=RequestMethod.PUT)
-    public User updateUser (@RequestParam String login) {
-    	return null;
+    public User updateUser (@RequestBody User user) {
+    	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
+    	entity = userService.updateUser(entity);
+    	User userDB = (User) converter.toPerson(entity);
+    	return userDB;
     }
     
     @RequestMapping(value="/users", method=RequestMethod.DELETE)

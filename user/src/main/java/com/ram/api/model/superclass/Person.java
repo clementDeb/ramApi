@@ -20,6 +20,7 @@ public abstract class Person{
 	private GenderEnum gender;
 	private String lastName;
 	private String firstName;
+	private String nickName;
 	private Adress adress;	
 	@ToString.Exclude
 	private List<Attachment> AttachmentList;
