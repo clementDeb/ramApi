@@ -19,11 +19,9 @@ import org.hibernate.annotations.DynamicUpdate;
 import lombok.Data;
 
 @Data
-@DynamicUpdate(true)
-@Entity
 @Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
-@Table(name="person")
-public class PersonEntity implements Serializable{
+@MappedSuperclass
+public abstract class PersonEntity implements Serializable{
 	
 	/**
 	 * 

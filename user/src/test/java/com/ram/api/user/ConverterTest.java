@@ -16,11 +16,13 @@ public class ConverterTest {
 	@Test
 	public void userToUserEntityTest() {
 		Person user = new User("test", "test");
+		user.setId(1);
 		
 		PersonEntity entity = Converter.INSTANCE.toPersonEntity(user);
 		
 		assertEquals(entity.getFirstName(), user.getFirstName());
 		assertEquals(entity.getLastName(), user.getLastName());
+		assertEquals(entity.getId(), user.getId());
 		
 	}
 	

@@ -12,10 +12,9 @@ import lombok.ToString;
 
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Person{
+public abstract class Person{
 
 	@EqualsAndHashCode.Include
-	@Setter(AccessLevel.NONE)
 	private int id;
 	@EqualsAndHashCode.Include
 	private GenderEnum gender;

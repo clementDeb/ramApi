@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 
-@Repository
+@NoRepositoryBean
 public interface PersonRepository<T extends PersonEntity> extends CrudRepository<T, Long>{
-
+	
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.exception.UserException;
+import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.superclass.PersonRepository;
 import com.ram.api.service.UserService;
@@ -23,11 +24,11 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
-	public UserEntity createAccount(UserEntity user) {
+	public UserEntity createAccount(UserEntity entity) {
 		log.debug("in userServiceImpl");
 		UserEntity userSaved = new UserEntity();
 		try {
-			userSaved = userRepository.save(user);
+			userSaved = userRepository.save(entity);
 		} catch (Exception e) {
 			log.error("ERROR while saving the user");
 		}

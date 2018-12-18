@@ -30,11 +30,11 @@ public class Controller {
 	@ResponseBody
     @RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Person createUser(@RequestBody User user) {  
-    	UserEntity entity = (UserEntity) converter.toPersonEntity(user);   
-    	entity = userService.createAccount(entity);
-    	user = (User) Converter.INSTANCE.entityToDto(entity);
+    	PersonEntity entity = (UserEntity) converter.toPersonEntity(user);
+    	entity = userService.createAccount((UserEntity)entity);
+    	Person userDB = (User) Converter.INSTANCE.toPerson(entity);
 
-        return user;
+        return userDB;
     }
     
     @RequestMapping(value="/users", method=RequestMethod.GET)
