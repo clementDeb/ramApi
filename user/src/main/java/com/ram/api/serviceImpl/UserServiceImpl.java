@@ -35,4 +35,12 @@ public class UserServiceImpl implements UserService{
 		return userSaved;
 	}
 
+	@Override
+	@Transactional
+	public UserEntity retrieveUser(String login) {
+		UserEntity userRetrieved = new UserEntity();
+		userRetrieved = userRepository.findUserByLogin(login);
+		return userRetrieved;
+	}
+
 }

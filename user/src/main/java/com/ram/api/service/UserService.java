@@ -10,5 +10,7 @@ public interface UserService {
 	 * @return the created user
 	 */
 	public UserEntity createAccount (UserEntity user);
+	
+	public UserEntity retrieveUser (String login);
 
 }

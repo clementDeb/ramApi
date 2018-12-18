@@ -39,7 +39,9 @@ public class Controller {
     
     @RequestMapping(value="/users", method=RequestMethod.GET)
     public User retrieveUser (@RequestParam String login) {
-    	return null;
+    	UserEntity entity = userService.retrieveUser(login);
+    	User user = (User) Converter.INSTANCE.toPerson(entity);
+    	return user;
     }
     
     @RequestMapping(value="/users", method=RequestMethod.PUT)
