@@ -9,10 +9,10 @@ import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 
 @Mapper(componentModel="spring")
-public interface Converter {
+public interface PersonConverter {
 	
 	//Not used if CDI is done with Spring
-	Converter INSTANCE = Mappers.getMapper(Converter.class);
+	PersonConverter INSTANCE = Mappers.getMapper(PersonConverter.class);
 	
 	default PersonEntity toPersonEntity(Person person) {
 		if (person instanceof User) {

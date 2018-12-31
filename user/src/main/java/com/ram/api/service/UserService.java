@@ -14,5 +14,6 @@ public interface UserService {
 	public UserEntity retrieveUser (String login);
 	
 	public UserEntity updateUser (UserEntity user);
-
+	
+	public void deleteUser (UserEntity user);
 }

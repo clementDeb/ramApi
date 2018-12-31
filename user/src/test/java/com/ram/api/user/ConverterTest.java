@@ -9,7 +9,7 @@ import com.ram.api.model.User;
 import com.ram.api.model.superclass.Person;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
-import com.ram.api.service.Converter;
+import com.ram.api.service.PersonConverter;
 
 public class ConverterTest {
 	
@@ -18,7 +18,7 @@ public class ConverterTest {
 		Person user = new User("test", "test");
 		user.setId(1);
 		
-		PersonEntity entity = Converter.INSTANCE.toPersonEntity(user);
+		PersonEntity entity = PersonConverter.INSTANCE.toPersonEntity(user);
 		
 		assertEquals(entity.getFirstName(), user.getFirstName());
 		assertEquals(entity.getLastName(), user.getLastName());
