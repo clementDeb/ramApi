@@ -1,9 +1,18 @@
 package com.ram.api.model;
 
 
-import lombok.Data;
+import org.springframework.stereotype.Component;
 
+import com.ram.api.model.superclass.Person;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+
+@Component
 @Data
+@NoArgsConstructor
 public class Adress{
 	
 	private String adressLineOne;
@@ -12,6 +21,8 @@ public class Adress{
 	private String country;
 	private String zipCode;
 	private int houseNumber;
+	@NonNull
+	private Person person;
 	
 
 }

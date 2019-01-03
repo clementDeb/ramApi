@@ -1,4 +1,4 @@
-package com.ram.api.service;
+package com.ram.api.converter;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -8,7 +8,7 @@ import com.ram.api.model.superclass.Person;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 
-@Mapper(componentModel="spring")
+@Mapper
 public interface PersonConverter {
 	
 	//Not used if CDI is done with Spring
