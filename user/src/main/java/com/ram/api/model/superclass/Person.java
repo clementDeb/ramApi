@@ -21,7 +21,8 @@ public abstract class Person{
 	private String lastName;
 	private String firstName;
 	private String nickName;
-	private Adress adress;	
+	@ToString.Exclude
+	private List<Adress> adresses;	
 	@ToString.Exclude
 	private List<Attachment> AttachmentList;
 

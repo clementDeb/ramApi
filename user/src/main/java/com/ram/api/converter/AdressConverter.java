@@ -7,12 +7,8 @@ import org.mapstruct.factory.Mappers;
 import com.ram.api.model.Adress;
 import com.ram.api.persistance.AdressEntity;
 
-@Mapper(uses=PersonConverter.class)
+@Mapper(componentModel="spring")
 public interface AdressConverter {
-	
-	//PersonConverter PersonConverterInstance = Mappers.getMapper(PersonConverter.class);
-	
-	AdressConverter INSTANCE = Mappers.getMapper(AdressConverter.class);
 	
 	/**Method to convert an entity into a dto
 	 * @param user

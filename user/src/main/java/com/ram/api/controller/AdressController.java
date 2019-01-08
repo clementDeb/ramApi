@@ -29,19 +29,12 @@ public class AdressController {
 	@Autowired
 	AdressConverter adressConverter;
 	
-	@Autowired
-	UserService userService;
-	
 		
 	@ResponseBody
     @RequestMapping(value="/adress", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress createAdress(@RequestBody Adress adress) { 
-		log.debug("in createAdress with adress: " + adress.toString()); 
-		String userLogin = ((User) adress.getPerson()).getLogin();
-		UserEntity userEntity = userService.retrieveUser(userLogin);
-		
+		log.debug("in createAdress with adress: " + adress.toString()); 		
 		AdressEntity adressEntity = adressConverter.dtoToEntity(adress);
-		adressEntity.setPerson(userEntity);
 		adressEntity = adressService.createAdress(adressEntity);
 		
 		adress = adressConverter.entityToDto(adressEntity);

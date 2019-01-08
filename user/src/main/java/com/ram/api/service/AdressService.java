@@ -1,5 +1,6 @@
 package com.ram.api.service;
 
+
 import com.ram.api.persistance.AdressEntity;
 
 public interface AdressService {

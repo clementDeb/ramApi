@@ -18,7 +18,7 @@ import lombok.Data;
 @Entity
 @DynamicUpdate(true)
 @Table
-public class AdressEntity {
+public class AdressEntity{
 	
 	@Id
 	@GeneratedValue
@@ -34,10 +34,6 @@ public class AdressEntity {
 	@Column(name="zipCode")
 	private String zipCode;
 	@Column(name="houseNumber")
-	private int houseNumber;
-	@Column (name="user")
-	@ManyToOne
-	private PersonEntity person;
-	
+	private int houseNumber;	
 
 }

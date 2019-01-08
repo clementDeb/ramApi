@@ -39,7 +39,7 @@ public abstract class PersonEntity implements Serializable{
 	private String nickName;
 	@Column(name="creationDate")
 	private LocalDateTime creationDate;
-//	@OneToMany
-//	List<AdressEntity> adresses;
+	@OneToMany
+	List<AdressEntity> adresses;
 
 }
