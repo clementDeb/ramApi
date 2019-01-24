@@ -31,7 +31,7 @@ public class AdressController {
 	
 		
 	@ResponseBody
-    @RequestMapping(value="/adress", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value="/adresses", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress createAdress(@RequestBody Adress adress) { 
 		log.debug("in createAdress with adress: " + adress.toString()); 		
 		AdressEntity adressEntity = adressConverter.dtoToEntity(adress);
@@ -41,21 +41,21 @@ public class AdressController {
         return adress;
     }
     
-    @RequestMapping(value="/adress", method=RequestMethod.GET)
+    @RequestMapping(value="/adresses", method=RequestMethod.GET)
     public Adress retrieveAdress (@RequestParam int adressId) {
     	log.debug("in retrieveUser with adressId: " + adressId);
     	
     	return null;
     }
     
-    @RequestMapping(value="/adress", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value="/adresses", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress updateAdress (@RequestBody Adress adress) {
     	log.debug("in updateUser");
     	
     	return null;
     }
     
-    @RequestMapping(value="/adress", method=RequestMethod.DELETE)
+    @RequestMapping(value="/adresses", method=RequestMethod.DELETE)
     public void deleteAdress (@RequestParam int adressId) {
     	
     }

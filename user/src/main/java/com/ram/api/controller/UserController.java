@@ -28,7 +28,7 @@ public class UserController {
 	PersonConverter converter;
 	
 	@ResponseBody
-    @RequestMapping(value="/user", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User createUser(@RequestBody User user) { 
 		log.debug("in createUser with user: " + user.toString());  	
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
@@ -38,7 +38,7 @@ public class UserController {
         return userDB;
     }
     
-    @RequestMapping(value="/user", method=RequestMethod.GET)
+    @RequestMapping(value="/users", method=RequestMethod.GET)
     public User retrieveUser (@RequestParam String login) {
     	log.debug("in retrieveUser with login: " + login);
     	UserEntity entity = userService.retrieveUser(login);
@@ -47,7 +47,7 @@ public class UserController {
     	return user;
     }
     
-    @RequestMapping(value="/user", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value="/users", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User updateUser (@RequestBody User user) {
     	log.debug("in updateUser");
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
@@ -56,7 +56,7 @@ public class UserController {
     	return userDB;
     }
     
-    @RequestMapping(value="/user", method=RequestMethod.DELETE)
+    @RequestMapping(value="/users", method=RequestMethod.DELETE)
     public void deleteUser (@RequestParam String login) {
     	log.debug("in deleteUser with login: " + login);
     	UserEntity entity = userService.retrieveUser(login);
