@@ -1,5 +1,6 @@
 package com.ram.api.serviceImpl;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -13,6 +14,7 @@ import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.UserRepository;
 import com.ram.api.repositories.superclass.PersonRepository;
+import com.ram.api.service.PersonService;
 import com.ram.api.service.UserService;
 
 import lombok.extern.log4j.Log4j2;
@@ -25,11 +27,16 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	PersonService personService;
 
 	@Override
 	@Transactional
 	public UserEntity createAccount(UserEntity entity) {
 		log.debug("in createAccount");
+		LocalDateTime creationDate = personService.retrieveCreationDate();
+		entity.setCreationDate(creationDate);
 		UserEntity userSaved = new UserEntity();
 		try {
 			userSaved = userRepository.save(entity);
