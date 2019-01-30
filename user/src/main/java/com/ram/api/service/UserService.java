@@ -1,5 +1,9 @@
 package com.ram.api.service;
 
+import java.util.Optional;
+
+import com.ram.api.exception.UserException;
+import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.UserEntity;
 
 public interface UserService {
@@ -10,9 +14,11 @@ public interface UserService {
 	 */
 	public UserEntity createAccount (UserEntity user);
 	
-	public UserEntity retrieveUser (String login);
+	public UserEntity retrieveUser (String login) throws UserException;
 	
 	public UserEntity updateUser (UserEntity user);
 	
 	public void deleteUser (UserEntity user);
+	
+	public UserEntity findUserById(int id) throws UserNotFoundException;
 }

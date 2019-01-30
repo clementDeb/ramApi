@@ -1,5 +1,6 @@
 package com.ram.api.persistance;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,7 +11,8 @@ import lombok.Data;
 @Data
 @Entity
 @DynamicUpdate(true)
-@Table
+@Table(name="contact")
+@DiscriminatorValue(value="contact")
 public class ContactEntity extends PersonEntity {
 
 	/**

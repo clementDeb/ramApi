@@ -1,8 +1,13 @@
 package com.ram.api.persistance;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -15,6 +20,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @DynamicUpdate(true)
 @Table(name="user")
+@DiscriminatorValue(value="USER")
 public class UserEntity extends PersonEntity{
 
 	/**
@@ -25,7 +31,8 @@ public class UserEntity extends PersonEntity{
 	@Column(name="LOGIN")
 	private String login;
 	@Column(name="PASSWORD")
-	private String password;	
+	private String password;
+	
 	
 }
 

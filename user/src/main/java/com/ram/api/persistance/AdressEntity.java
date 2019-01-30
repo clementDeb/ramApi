@@ -1,23 +1,23 @@
 package com.ram.api.persistance;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.ram.api.model.User;
-import com.ram.api.model.superclass.Person;
 
 import lombok.Data;
 
 @Data
 @Entity
 @DynamicUpdate(true)
-@Table
+@Table(name="adress")
 public class AdressEntity{
 	
 	@Id
@@ -34,6 +34,8 @@ public class AdressEntity{
 	@Column(name="zipCode")
 	private String zipCode;
 	@Column(name="houseNumber")
-	private int houseNumber;	
+	private int houseNumber;
+//	@ManyToOne
+//	private PersonEntity person;
 
 }

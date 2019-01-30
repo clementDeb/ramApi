@@ -21,8 +21,8 @@ public class Adress{
 	private String country;
 	private String zipCode;
 	private int houseNumber;
-	@NonNull
-	private Person person;
+//	@NonNull
+//	private Person person;
 	
 
 }

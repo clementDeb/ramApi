@@ -25,6 +25,7 @@ public abstract class Person{
 	private List<Adress> adresses;	
 	@ToString.Exclude
 	private List<Attachment> AttachmentList;
+	private Adress adress;
 
 	public enum GenderEnum {
 

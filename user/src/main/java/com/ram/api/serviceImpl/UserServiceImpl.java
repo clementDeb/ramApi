@@ -1,11 +1,14 @@
 package com.ram.api.serviceImpl;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.exception.UserException;
+import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.superclass.PersonRepository;
@@ -16,6 +19,8 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @Log4j2
 public class UserServiceImpl implements UserService{
+	
+	private static final String USER_NOT_FOUND_MSG = "user not found";
 	
 	@Autowired
 	PersonRepository<UserEntity> userRepository;
@@ -35,11 +40,10 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
-	public UserEntity retrieveUser(String login) {
+	public UserEntity retrieveUser(String login) throws UserNotFoundException {
 		log.debug("in retrieveUser");
-		UserEntity userRetrieved = new UserEntity();
-		userRetrieved = userRepository.findUserByLogin(login);
-		return userRetrieved;
+		Optional<UserEntity> userOptional = userRepository.findUserByLogin(login);
+		return userOptional.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));
 	}
 
 	@Override
@@ -54,7 +58,12 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void deleteUser(UserEntity entity) {
 		log.debug("in deleteUser");
-		userRepository.delete(entity);
+		userRepository.delete(entity);		
+	}
+	
+	public UserEntity findUserById(int id) throws UserNotFoundException {
+		Optional<UserEntity> entity = userRepository.findById(id);
+		return entity.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));
 		
 	}
 

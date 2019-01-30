@@ -3,14 +3,11 @@ package com.ram.api.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@SuppressWarnings("serial")
 @AllArgsConstructor
 @Getter
-public class UserException extends Exception {
+public class UserException extends Throwable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private String msg;
 
 }

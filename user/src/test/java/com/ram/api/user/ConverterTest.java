@@ -32,31 +32,16 @@ public class ConverterTest {
 	AdressConverter adressConverter;
 	
 	@Test
-	public void userToUserEntityTest() {		
-		//create and fill the adress
-		Adress adress = new Adress();
-		adress.setAdressLineOne("firstLineAdress");
-		adress.setAdressLineTwo("secondLineAdress");
-		adress.setCountry("France");
-		adress.setHouseNumber(44);
-		adress.setZipCode("33200");
-		
-		List <Adress> listAdress = new ArrayList<>();
-		listAdress.add(adress);
-		
+	public void userToUserEntityTest() {				
 		Person user = new User("test", "test");
 		user.setId(1);
-		user.setAdresses(listAdress);
 		
 		PersonEntity entity = personeConverter.toPersonEntity(user);
 		
 		assertEquals(entity.getFirstName(), user.getFirstName());
 		assertEquals(entity.getLastName(), user.getLastName());
 		assertEquals(entity.getId(), user.getId());
-		
-		assertEquals(entity.getAdresses().size(), 1);
-		assertNotEquals(entity.getAdresses().get(0).getZipCode(), "3300");
-		
+
 	}
 	
 	@Test
@@ -68,8 +53,7 @@ public class ConverterTest {
 		adress.setCountry("France");
 		adress.setHouseNumber(44);
 		adress.setZipCode("33200");
-		
-		
+	
 		AdressEntity entity = adressConverter.dtoToEntity(adress);
 		
 		//assertion
