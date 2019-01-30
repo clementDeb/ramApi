@@ -45,6 +45,8 @@ public class PersonEntity implements Serializable{
 	private String nickName;
 	@Column(name="creationDate")
 	private LocalDateTime creationDate;
+	@Column(name="genderId")
+	private int genderId;
 	@Column(name="adress")
 	@OneToMany(fetch=FetchType.LAZY)
 	@JoinColumn(name = "person_id")

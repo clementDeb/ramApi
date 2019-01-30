@@ -1,6 +1,5 @@
 package com.ram.api.persistance;
 
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
