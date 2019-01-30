@@ -11,6 +11,7 @@ import com.ram.api.exception.UserException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
+import com.ram.api.repositories.UserRepository;
 import com.ram.api.repositories.superclass.PersonRepository;
 import com.ram.api.service.UserService;
 
@@ -23,7 +24,7 @@ public class UserServiceImpl implements UserService{
 	private static final String USER_NOT_FOUND_MSG = "user not found";
 	
 	@Autowired
-	PersonRepository<UserEntity> userRepository;
+	UserRepository userRepository;
 
 	@Override
 	@Transactional

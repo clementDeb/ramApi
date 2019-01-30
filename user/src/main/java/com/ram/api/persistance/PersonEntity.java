@@ -25,10 +25,8 @@ import com.ram.api.model.Adress;
 import lombok.Data;
 
 @Data
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@Entity
-@DiscriminatorColumn(name="personType", discriminatorType=DiscriminatorType.STRING)
-@Table(name="person")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 public class PersonEntity implements Serializable{
 	
 	/**

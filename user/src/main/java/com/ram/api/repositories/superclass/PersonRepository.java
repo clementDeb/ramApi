@@ -13,10 +13,7 @@ import com.ram.api.persistance.UserEntity;
 @NoRepositoryBean
 public interface PersonRepository<T extends PersonEntity> extends CrudRepository<T, Long>{
 
-	@Query("SELECT u FROM PersonEntity as u WHERE u.login = :login")
-	Optional<UserEntity> findUserByLogin(@Param(value = "login") String login);
-	
-	@Query("SELECT u FROM PersonEntity as u WHERE u.id = :id")
+	@Query("SELECT p FROM #{#entityName} as p WHERE p.id = :id")
 	Optional<T> findById(@Param(value = "id") int id);
 	
 }

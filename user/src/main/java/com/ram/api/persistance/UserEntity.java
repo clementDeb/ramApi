@@ -20,7 +20,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @DynamicUpdate(true)
 @Table(name="user")
-@DiscriminatorValue(value="USER")
 public class UserEntity extends PersonEntity{
 
 	/**

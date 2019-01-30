@@ -12,7 +12,6 @@ import lombok.Data;
 @Entity
 @DynamicUpdate(true)
 @Table(name="contact")
-@DiscriminatorValue(value="contact")
 public class ContactEntity extends PersonEntity {
 
 	/**
