@@ -36,7 +36,7 @@ public class PersonEntity implements Serializable{
 	@Id
 	@GeneratedValue
 	@Column(name="ID")
-	private int id;
+	private long id;
 	@Column(name="lastName")
 	private String lastName;
 	@Column(name="firstName")

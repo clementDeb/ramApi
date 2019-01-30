@@ -22,7 +22,7 @@ public class AdressEntity{
 	
 	@Id
 	@GeneratedValue
-	private int id;
+	private long id;
 	@Column(name="adressLineOne")
 	private String adressLineOne;
 	@Column(name="adressLineTwo")
