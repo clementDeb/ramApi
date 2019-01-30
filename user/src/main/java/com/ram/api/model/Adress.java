@@ -15,6 +15,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 public class Adress{
 	
+	private long id;
 	private String adressLineOne;
 	private String adressLineTwo;
 	private String adressLineThree;

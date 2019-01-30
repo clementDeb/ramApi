@@ -15,7 +15,7 @@ import lombok.ToString;
 public abstract class Person{
 
 	@EqualsAndHashCode.Include
-	private int id;
+	private long id;
 	@EqualsAndHashCode.Include
 	private GenderEnum gender;
 	private String lastName;
