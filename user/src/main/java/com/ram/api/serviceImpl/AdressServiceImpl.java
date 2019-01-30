@@ -1,9 +1,12 @@
 package com.ram.api.serviceImpl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.persistance.AdressEntity;
+import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.AdressRepository;
 import com.ram.api.service.AdressService;
 
@@ -23,9 +26,9 @@ public class AdressServiceImpl implements AdressService{
 	}
 
 	@Override
-	public AdressEntity retrieveAdress(int adressId) {
-		// TODO Auto-generated method stub
-		return null;
+	public AdressEntity retrieveAdress(long adressId) {
+		Optional<AdressEntity> userOptional = adressRepository.findById(adressId);
+		return userOptional.get();
 	}
 
 	@Override

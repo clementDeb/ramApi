@@ -62,11 +62,12 @@ public class AdressController {
         return adress;
     }
     
-    @RequestMapping(value="/adresses", method=RequestMethod.GET)
-    public Adress retrieveAdress (@RequestParam int adressId) {
+    @RequestMapping(value="/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Adress retrieveAdress (@RequestParam long adressId) {
     	log.debug("in retrieveUser with adressId: " + adressId);
-    	
-    	return null;
+    	AdressEntity entity = adressService.retrieveAdress(adressId);
+    	Adress adress = adressConverter.entityToDto(entity);   	
+    	return adress;
     }
     
     @RequestMapping(value="/adresses", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)

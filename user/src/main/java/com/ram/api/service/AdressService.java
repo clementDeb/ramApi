@@ -11,7 +11,7 @@ public interface AdressService {
 	 */
 	public AdressEntity createAdress (AdressEntity adress);
 	
-	public AdressEntity retrieveAdress (int adressId);
+	public AdressEntity retrieveAdress (long adressId);
 	
 	public AdressEntity updateAdress (AdressEntity adress);
 	
