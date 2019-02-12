@@ -6,7 +6,7 @@ import lombok.Getter;
 @SuppressWarnings("serial")
 @AllArgsConstructor
 @Getter
-public class MajorException extends Throwable {
+public class MainException extends Throwable {
 
 	private String msg;
 
