@@ -8,10 +8,8 @@ import com.ram.api.model.superclass.Person;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 
-@Mapper(componentModel="spring")
+@Mapper(componentModel="spring", uses=AdressConverter.class)
 public interface PersonConverter {
-	
-	//Not used if CDI is done with Spring
 	
 	default PersonEntity toPersonEntity(Person person) {
 		if (person instanceof User) {
