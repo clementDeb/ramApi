@@ -18,7 +18,9 @@ public abstract class Person{
 	private long id;
 	@EqualsAndHashCode.Include
 	private GenderEnum gender;
+	@EqualsAndHashCode.Include
 	private String lastName;
+	@EqualsAndHashCode.Include
 	private String firstName;
 	private String nickName;
 	@ToString.Exclude
