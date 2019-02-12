@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ram.api.exception.UserException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
@@ -58,9 +57,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public UserEntity updateUser(UserEntity entity) {
 		log.debug("in updateUser");
-		UserEntity userSaved = new UserEntity();
-		userSaved = userRepository.save(entity);
-		return userSaved;
+		return userRepository.save(entity);
 	}
 
 	@Override

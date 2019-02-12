@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ram.api.converter.PersonConverter;
-import com.ram.api.exception.UserException;
+import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.User;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.UserService;
@@ -35,9 +35,7 @@ public class UserController {
 		log.debug("in createUser with user: " + user.toString());  	
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
     	entity = userService.createAccount(entity);
-    	User userDB = (User) converter.toPerson(entity);
-    	log.debug("in createUser with returned user: " + userDB.toString());
-        return userDB;
+        return (User) converter.toPerson(entity);
     }
     
     @RequestMapping(value="/users", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -46,15 +44,13 @@ public class UserController {
     	UserEntity entity = new UserEntity();
 		try {
 			entity = userService.retrieveUser(login);
-		} catch (UserException e) {
+		} catch (UserNotFoundException e) {
 			String error = e.getMsg();
 			log.error("in retrieve User: " + error);
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, error);		
 		}
-    	User user = (User) converter.toPerson(entity);
-    	log.debug("in retrieveUser with retruned user: " + user);
-    	return user;
+    	return (User) converter.toPerson(entity);
     }
     
     @RequestMapping(value="/users", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -62,17 +58,16 @@ public class UserController {
     	log.debug("in updateUser");
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
     	entity = userService.updateUser(entity);
-    	User userDB = (User) converter.toPerson(entity);
-    	return userDB;
+    	return (User) converter.toPerson(entity);
     }
     
-    @RequestMapping(value="/users", method=RequestMethod.DELETE)
+    @RequestMapping(value="/users", method=RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteUser (@RequestParam String login) {
     	log.debug("in deleteUser with login: " + login);
     	UserEntity entity = new UserEntity();
 		try {
 			entity = userService.retrieveUser(login);
-		} catch (UserException e) {
+		} catch (UserNotFoundException e) {
 			String error = e.getMsg();
 			log.error("in delete User: " + error);
 			throw new ResponseStatusException(
