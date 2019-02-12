@@ -4,17 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.ram.api.converter.AdressConverter;
-import com.ram.api.exception.UserException;
+import com.ram.api.exceptions.AdressNotFoundException;
+import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.Adress;
 import com.ram.api.model.User;
 import com.ram.api.persistance.AdressEntity;
@@ -45,9 +47,11 @@ public class AdressController {
 		UserEntity userEntity = null;
 		try {
 			userEntity = userService.findUserById(Integer.parseInt(userId));
-		} catch (UserException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (UserNotFoundException e) {
+			String error = e.getMsg();
+			log.error("in retrieve Adress: " + error);
+			throw new ResponseStatusException(
+					HttpStatus.BAD_REQUEST, error);
 		}
 		
 		AdressEntity adressEntity = adressConverter.dtoToEntity(adress);
@@ -57,7 +61,6 @@ public class AdressController {
 		//update the user
 		userEntity.setAdresses(adresses);
 		userService.updateUser(userEntity);
-		//convert the adress to DTO
 		adress = adressConverter.entityToDto(adressEntity);
         return adress;
     }
@@ -65,7 +68,15 @@ public class AdressController {
     @RequestMapping(value="/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress retrieveAdress (@RequestParam long adressId) {
     	log.debug("in retrieveUser with adressId: " + adressId);
-    	AdressEntity entity = adressService.retrieveAdress(adressId);
+    	AdressEntity entity;
+		try {
+			entity = adressService.retrieveAdress(adressId);
+		} catch (AdressNotFoundException e) {
+			String error = e.getMsg();
+			log.error("in retrieve Adress: " + error);
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND, error);
+		}
     	Adress adress = adressConverter.entityToDto(entity);   	
     	return adress;
     }
@@ -73,13 +84,24 @@ public class AdressController {
     @RequestMapping(value="/adresses", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress updateAdress (@RequestBody Adress adress) {
     	log.debug("in updateUser");
-    	
-    	return null;
+    	AdressEntity entity = adressConverter.dtoToEntity(adress);
+    	entity = adressService.updateAdress(entity);
+    	return adressConverter.entityToDto(entity);
     }
     
-    @RequestMapping(value="/adresses", method=RequestMethod.DELETE)
+    @RequestMapping(value="/adresses", method=RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteAdress (@RequestParam int adressId) {
-    	
+    	log.debug("in deleteAdress with login: " + adressId);
+    	AdressEntity entity = new AdressEntity();
+		try {
+			entity = adressService.retrieveAdress(adressId);
+		} catch (AdressNotFoundException e) {
+			String error = e.getMsg();
+			log.error("in delete adress: " + error);
+			throw new ResponseStatusException(
+					HttpStatus.CONFLICT, error);
+		}
+    	adressService.deleteAdress(entity);
     }
 
 }
