@@ -1,8 +1,10 @@
 package com.ram.api.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.ram.api.exceptions.UserNotFoundException;
+import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 
 public interface UserService {
@@ -19,5 +21,7 @@ public interface UserService {
 	
 	public void deleteUser (UserEntity user);
 	
-	public UserEntity findUserById(int id) throws UserNotFoundException;
+	public UserEntity findUserById(long id) throws UserNotFoundException;
+	
+	public List<AdressEntity> retrieveAdressesByUserId (long id);
 }

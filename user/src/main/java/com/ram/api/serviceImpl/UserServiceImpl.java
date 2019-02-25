@@ -1,7 +1,9 @@
 package com.ram.api.serviceImpl;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.exceptions.UserNotFoundException;
+import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.UserRepository;
@@ -66,10 +69,23 @@ public class UserServiceImpl implements UserService{
 		userRepository.delete(entity);		
 	}
 	
-	public UserEntity findUserById(int id) throws UserNotFoundException {
+	public UserEntity findUserById(long id) throws UserNotFoundException {
 		Optional<UserEntity> entity = userRepository.findById(id);
-		return entity.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));
-		
+		return entity.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));		
+	}
+	
+//	public List<AdressEntity> retrieveAdressesByUserId (UserEntity user){
+//		List <AdressEntity> listAdress = user.getAdresses();
+//		listAdress.stream()
+//			.sorted((a,b) -> a.getId() - b.getId())
+//			.collect(Collectors.toList());
+//		return null;
+//	}
+
+	@Override
+	public List<AdressEntity> retrieveAdressesByUserId(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -35,7 +35,7 @@ public class AdressEntity{
 	private String zipCode;
 	@Column(name="houseNumber")
 	private int houseNumber;
-//	@ManyToOne
-//	private PersonEntity person;
+	@Column(name="creationDate")
+	private String creationDate;
 
 }

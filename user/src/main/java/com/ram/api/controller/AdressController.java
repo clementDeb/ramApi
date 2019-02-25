@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -65,9 +66,9 @@ public class AdressController {
         return adress;
     }
     
-    @RequestMapping(value="/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Adress retrieveAdress (@RequestParam long adressId) {
-    	log.debug("in retrieveUser with adressId: " + adressId);
+    @RequestMapping(value="/adresses/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Adress retrieveAdress (@PathVariable int adressId) {
+    	log.debug("in retrieveAdress with adressId: " + adressId);
     	AdressEntity entity;
 		try {
 			entity = adressService.retrieveAdress(adressId);
