@@ -1,9 +1,9 @@
 package com.ram.api.service;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public interface PersonService {
 	
-	public LocalDateTime retrieveCreationDate ();
+	public Instant retrieveCreationDate ();
 
 }
