@@ -62,4 +62,19 @@ public class UserServiceTest {
 		this.userService.retrieveUser(login);
 		
 	}
+	
+	@Test
+	public void updateUser () {
+		String loginModified = "Login";
+		
+		UserEntity entity = new UserEntity();
+		entity.setFirstName("firstName");
+		entity.setLastName("lastName");
+		entity.setId(3);
+		entity.setLogin("Login");
+		
+		Mockito.when(this.userRepository.save(entity)).thenReturn(entity);
+		
+		assertEquals(loginModified, this.userService.updateUser(entity).getLogin());
+	}
 }
