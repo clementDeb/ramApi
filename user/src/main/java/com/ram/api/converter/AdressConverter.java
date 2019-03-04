@@ -1,5 +1,7 @@
 package com.ram.api.converter;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -7,7 +9,7 @@ import org.mapstruct.factory.Mappers;
 import com.ram.api.model.Adress;
 import com.ram.api.persistance.AdressEntity;
 
-@Mapper(componentModel="spring", uses=PersonConverter.class)
+@Mapper(componentModel="spring")
 public interface AdressConverter {
 	
 	/**Method to convert an entity into a dto
@@ -21,5 +23,11 @@ public interface AdressConverter {
 	 * @returnthe converted dto into entity
 	 */
 	AdressEntity dtoToEntity(Adress dto);
+	
+	List<Adress> listEntityToDto (List<AdressEntity> listEntity);
+	
+	List<AdressEntity> listDtoToEntity (List<Adress> listEntity);
+	
+	
 
 }
