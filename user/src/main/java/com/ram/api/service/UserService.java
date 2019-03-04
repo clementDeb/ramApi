@@ -23,5 +23,5 @@ public interface UserService {
 	
 	public UserEntity findUserById(long id) throws UserNotFoundException;
 	
-	public List<AdressEntity> retrieveAdressesByUserId (long id);
+	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity);
 }

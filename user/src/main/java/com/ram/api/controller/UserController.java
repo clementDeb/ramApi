@@ -1,5 +1,6 @@
 package com.ram.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.websocket.server.PathParam;
@@ -17,10 +18,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.ram.api.converter.AdressConverter;
 import com.ram.api.converter.PersonConverter;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.Adress;
 import com.ram.api.model.User;
+import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.UserService;
 
@@ -35,6 +38,9 @@ public class UserController {
 	
 	@Autowired
 	PersonConverter converter;
+	
+	@Autowired
+	AdressConverter adressConverter;
 	
 	@CrossOrigin(origins="http://127.0.0.1:3000")
 	@ResponseBody
@@ -84,19 +90,21 @@ public class UserController {
     	userService.deleteUser(entity);
     }
     
-//    @RequestMapping(value="/users/{userId}/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
-//    public List<Adress> retrieveAdressesByUserId (@PathVariable("userId") long id) {
-//    	log.debug("in retrieveUser with login: " + id);
-//    	UserEntity entity = new UserEntity();
-//		try {
-//			entity = userService.findUserById(id);
-//		} catch (UserNotFoundException e) {
-//			String error = e.getMsg();
-//			log.error("in retrieve User: " + error);
-//			throw new ResponseStatusException(
-//					HttpStatus.NOT_FOUND, error);		
-//		}
-//    	return (User) converter.toPerson(entity);
-//    }
+    @RequestMapping(value="/users/{userId}/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Adress> retrieveAdressesByUserId (@PathVariable("userId") long id) {
+    	log.debug("in retrieveUser with login: " + id);
+    	UserEntity entity = new UserEntity();
+    	List<Adress> adresses = new ArrayList<Adress>();
+		try {
+			entity = userService.findUserById(id);
+		} catch (UserNotFoundException e) {
+			String error = e.getMsg();
+			log.error("in retrieve User: " + error);
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND, error);		
+		}		
+		adresses = adressConverter.listEntityToDto(userService.retrieveAdressesByUserId(entity));
+    	return adresses;
+    }
     	
 }
