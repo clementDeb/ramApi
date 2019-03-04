@@ -1,6 +1,7 @@
 package com.ram.api.persistance;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class PersonEntity implements Serializable{
 	@Column(name="nickName")
 	private String nickName;
 	@Column(name="creationDate")
-	private LocalDateTime creationDate;
+	private Instant creationDate;
 	@Column(name="genderId")
 	private int genderId;
 	@Column(name="adress")
