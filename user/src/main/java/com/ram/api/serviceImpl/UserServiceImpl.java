@@ -1,6 +1,8 @@
 package com.ram.api.serviceImpl;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,8 +39,8 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public UserEntity createAccount(UserEntity entity) {
 		log.debug("in createAccount");
-		LocalDateTime creationDate = personService.retrieveCreationDate();
-		entity.setCreationDate(creationDate);
+		Instant creationTimestamp = personService.retrieveCreationDate();
+		entity.setCreationDate(creationTimestamp);
 		UserEntity userSaved = new UserEntity();
 		userSaved = userRepository.save(entity);
 		return userSaved;
@@ -70,18 +72,13 @@ public class UserServiceImpl implements UserService{
 		return entity.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));		
 	}
 	
-//	public List<AdressEntity> retrieveAdressesByUserId (UserEntity user){
-//		List <AdressEntity> listAdress = user.getAdresses();
-//		listAdress.stream()
-//			.sorted((a,b) -> a.getId() - b.getId())
-//			.collect(Collectors.toList());
-//		return null;
-//	}
-
 	@Override
-	public List<AdressEntity> retrieveAdressesByUserId(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity){
+		List <AdressEntity> listAdress = entity.getAdresses();
+		listAdress.stream()
+			.sorted(Comparator.comparing(AdressEntity :: getCreationDate))
+			.collect(Collectors.toList());
+		return listAdress;
 	}
 
 }
