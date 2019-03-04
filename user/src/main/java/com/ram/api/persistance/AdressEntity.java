@@ -18,7 +18,7 @@ import lombok.Data;
 @Entity
 @DynamicUpdate(true)
 @Table(name="adress")
-public class AdressEntity{
+public class AdressEntity implements Comparable<AdressEntity>{
 	
 	@Id
 	@GeneratedValue
@@ -37,5 +37,10 @@ public class AdressEntity{
 	private int houseNumber;
 	@Column(name="creationDate")
 	private String creationDate;
+	
+	@Override
+	public int compareTo(AdressEntity adr) {
+		return creationDate.compareTo(adr.getCreationDate());
+	}
 
 }
