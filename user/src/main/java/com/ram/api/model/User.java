@@ -19,11 +19,9 @@ import lombok.RequiredArgsConstructor;
 public class User extends Person{
 
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	@EqualsAndHashCode.Include
 	private String login;
+	@EqualsAndHashCode.Include
 	private String password;	
 
 }
