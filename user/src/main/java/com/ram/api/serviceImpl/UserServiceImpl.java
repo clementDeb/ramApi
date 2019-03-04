@@ -40,11 +40,7 @@ public class UserServiceImpl implements UserService{
 		LocalDateTime creationDate = personService.retrieveCreationDate();
 		entity.setCreationDate(creationDate);
 		UserEntity userSaved = new UserEntity();
-		try {
-			userSaved = userRepository.save(entity);
-		} catch (Exception e) {
-			log.error("ERROR while saving the user");
-		}
+		userSaved = userRepository.save(entity);
 		return userSaved;
 	}
 
