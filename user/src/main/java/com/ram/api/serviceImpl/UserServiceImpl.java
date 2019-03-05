@@ -2,6 +2,7 @@ package com.ram.api.serviceImpl;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -75,10 +76,13 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity){
 		List <AdressEntity> listAdress = entity.getAdresses();
-		listAdress.stream()
-			.sorted(Comparator.comparing(AdressEntity :: getCreationDate))
-			.collect(Collectors.toList());
+		if (false == listAdress.isEmpty()) {
+			listAdress = listAdress.stream()
+						.sorted()
+						.collect(Collectors.toList());
 		return listAdress;
+		} else {
+			return new ArrayList<AdressEntity>();
+		}
 	}
-
 }
