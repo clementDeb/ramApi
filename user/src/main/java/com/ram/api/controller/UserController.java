@@ -94,7 +94,6 @@ public class UserController {
     public List<Adress> retrieveAdressesByUserId (@PathVariable("userId") long id) {
     	log.debug("in retrieveUser with login: " + id);
     	UserEntity entity = new UserEntity();
-    	List<Adress> adresses = new ArrayList<Adress>();
 		try {
 			entity = userService.findUserById(id);
 		} catch (UserNotFoundException e) {
@@ -102,8 +101,9 @@ public class UserController {
 			log.error("in retrieve User: " + error);
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, error);		
-		}		
-		adresses = adressConverter.listEntityToDto(userService.retrieveAdressesByUserId(entity));
+		}
+		List<AdressEntity> entityAdresses = userService.retrieveAdressesByUserId(entity);
+		List<Adress> adresses = adressConverter.listEntityToDto(entityAdresses);
     	return adresses;
     }
     	
