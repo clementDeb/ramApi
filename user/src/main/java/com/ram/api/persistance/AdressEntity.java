@@ -1,6 +1,8 @@
 package com.ram.api.persistance;
 
 
+import java.time.Instant;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,11 +38,11 @@ public class AdressEntity implements Comparable<AdressEntity>{
 	@Column(name="houseNumber")
 	private int houseNumber;
 	@Column(name="creationDate")
-	private String creationDate;
+	private Instant creationDate;
 	
 	@Override
 	public int compareTo(AdressEntity adr) {
-		return creationDate.compareTo(adr.getCreationDate());
+		return country.compareTo(adr.getCountry());
 	}
 
 }
