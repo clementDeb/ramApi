@@ -2,12 +2,14 @@ package com.ram.api.user;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.hamcrest.collection.IsEmptyCollection;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -106,5 +108,17 @@ public class UserServiceTest {
 		
 		assertEquals("France", this.userService.retrieveAdressesByUserId(entity).get(0).getCountry());
 
+	}
+	
+	@Test
+	public void retrieveAdressesByUserIdTestEmptyList() {
+		UserEntity entityOne = new UserEntity();
+		UserEntity entityTwo = new UserEntity();
+		List<AdressEntity> listAdress = new ArrayList<AdressEntity>();
+		entityOne.setAdresses(null);
+		entityTwo.setAdresses(listAdress);
+		
+		assertTrue(this.userService.retrieveAdressesByUserId(entityOne).isEmpty());
+		assertTrue(this.userService.retrieveAdressesByUserId(entityTwo).isEmpty());
 	}
 }
