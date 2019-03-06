@@ -11,6 +11,9 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.exceptions.UserNotFoundException;
@@ -49,6 +52,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
+	@Cacheable
 	public UserEntity retrieveUser(String login) throws UserNotFoundException {
 		log.debug("in retrieveUser");
 		Optional<UserEntity> userOptional = userRepository.findUserByLogin(login);
@@ -57,26 +61,32 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
+	@CachePut
 	public UserEntity updateUser(UserEntity entity) {
 		log.debug("in updateUser");
 		return userRepository.save(entity);
 	}
 
 	@Override
+	@CacheEvict
 	public void deleteUser(UserEntity entity) {
 		log.debug("in deleteUser");
 		userRepository.delete(entity);		
 	}
 	
+	@Cacheable
+	@Transactional
 	public UserEntity findUserById(long id) throws UserNotFoundException {
 		Optional<UserEntity> entity = userRepository.findById(id);
 		return entity.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));		
 	}
 	
 	@Override
+	@Transactional
+	@CachePut
 	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity){
 		List <AdressEntity> listAdress = entity.getAdresses();
-		if (false == listAdress.isEmpty()) {
+		if (null != listAdress && false == listAdress.isEmpty()) {
 			listAdress = listAdress.stream()
 						.sorted()
 						.collect(Collectors.toList());

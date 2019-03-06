@@ -3,6 +3,9 @@ package com.ram.api.serviceImpl;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.ram.api.exceptions.AdressNotFoundException;
@@ -23,24 +26,28 @@ public class AdressServiceImpl implements AdressService{
 	AdressRepository adressRepository;
 
 	@Override
+	@Cacheable
 	public AdressEntity createAdress(AdressEntity adress) {
 		adress = adressRepository.save(adress);
 		return adress;
 	}
 
 	@Override
+	@Cacheable
 	public AdressEntity retrieveAdress(long adressId) throws AdressNotFoundException {
 		Optional<AdressEntity> adressOptional = adressRepository.findById(adressId);
 		return adressOptional.orElseThrow(() -> new AdressNotFoundException(ADRESS_NOT_FOUND_MSG));
 	}
 
 	@Override
+	@CachePut
 	public AdressEntity updateAdress(AdressEntity adress) {
 		log.debug("in updateAdress");
 		return adressRepository.save(adress);
 	}
 
 	@Override
+	@CacheEvict
 	public void deleteAdress(AdressEntity entity) {
 		adressRepository.delete(entity);
 	}
