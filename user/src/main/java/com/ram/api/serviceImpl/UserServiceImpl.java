@@ -16,6 +16,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.PersonEntity;
@@ -31,7 +32,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class UserServiceImpl implements UserService{
 	
-	private static final String USER_NOT_FOUND_MSG = "user not found";
+	private static final String USER_NOT_FOUND_MSG = "User not found";
+	
+	private static final String EMAIL_ALREADY_EXISTS = "The login already exists";
 	
 	@Autowired
 	UserRepository userRepository;
@@ -41,13 +44,21 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
-	public UserEntity createAccount(UserEntity entity) {
+	public UserEntity createAccount(UserEntity entity) throws EmailExistException {
 		log.debug("in createAccount");
+		AccountManager accManager = new AccountManager();
+		if (loginExist(entity.getLogin, accManager)) {
+			throw new EmailExistException(EMAIL_ALREADY_EXISTS);
+		}
 		Instant creationTimestamp = personService.retrieveCreationDate();
 		entity.setCreationDate(creationTimestamp);
-		UserEntity userSaved = new UserEntity();
-		userSaved = userRepository.save(entity);
-		return userSaved;
+		entity.setPassword(accManager.encode(entity.getPassword));
+		return userRepository.save(entity);
+	}
+	
+	private boolean loginExist (String login, AccountManager accManager) {
+		List logins = userRepository.findAllLogins();		
+		return accManager.loginExist(login, logins);;
 	}
 
 	@Override

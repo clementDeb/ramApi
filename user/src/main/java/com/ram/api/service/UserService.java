@@ -3,6 +3,7 @@ package com.ram.api.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
@@ -13,7 +14,7 @@ public interface UserService {
 	 * @param user
 	 * @return the created user
 	 */
-	public UserEntity createAccount (UserEntity user);
+	public UserEntity createAccount (UserEntity user) throws EmailExistException;
 	
 	public UserEntity retrieveUser (String login) throws UserNotFoundException;
 	
