@@ -16,6 +16,8 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.ram.api.constants.ExceptionMessage;
+import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
@@ -32,10 +34,6 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class UserServiceImpl implements UserService{
 	
-	private static final String USER_NOT_FOUND_MSG = "User not found";
-	
-	private static final String EMAIL_ALREADY_EXISTS = "The login already exists";
-	
 	@Autowired
 	UserRepository userRepository;
 	
@@ -47,8 +45,9 @@ public class UserServiceImpl implements UserService{
 	public UserEntity createAccount(UserEntity entity) throws EmailExistException {
 		log.debug("in createAccount");
 		AccountManager accManager = new AccountManager();
-		if (loginExist(entity.getLogin, accManager)) {
-			throw new EmailExistException(EMAIL_ALREADY_EXISTS);
+		boolean loginExist = loginExist(entity.getLogin, accManager);
+		if (loginExist) {
+			throw new EmailExistException(ExceptionMessage.EMAIL_ALREADY_EXISTS);
 		}
 		Instant creationTimestamp = personService.retrieveCreationDate();
 		entity.setCreationDate(creationTimestamp);
@@ -57,7 +56,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	private boolean loginExist (String login, AccountManager accManager) {
-		List logins = userRepository.findAllLogins();		
+		List logins = userRepository.findAllLogin();		
 		return accManager.loginExist(login, logins);;
 	}
 
@@ -67,7 +66,7 @@ public class UserServiceImpl implements UserService{
 	public UserEntity retrieveUser(String login) throws UserNotFoundException {
 		log.debug("in retrieveUser");
 		Optional<UserEntity> userOptional = userRepository.findUserByLogin(login);
-		return userOptional.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));
+		return userOptional.orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND_MSG));
 	}
 
 	@Override
@@ -89,7 +88,7 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	public UserEntity findUserById(long id) throws UserNotFoundException {
 		Optional<UserEntity> entity = userRepository.findById(id);
-		return entity.orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MSG));		
+		return entity.orElseThrow(() -> new UserNotFoundException(ExceptionMessage.USER_NOT_FOUND_MSG));		
 	}
 	
 	@Override
@@ -103,7 +102,7 @@ public class UserServiceImpl implements UserService{
 						.collect(Collectors.toList());
 		return listAdress;
 		} else {
-			return new ArrayList<AdressEntity>();
+			throw new AdressNotFoundException(ExceptionMessage.ADRESS_NOT_FOUND);
 		}
 	}
 }
