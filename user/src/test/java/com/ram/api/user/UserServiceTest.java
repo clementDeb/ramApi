@@ -20,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.ram.api.RamApi;
+import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.Adress;
 import com.ram.api.persistance.AdressEntity;
@@ -106,19 +107,17 @@ public class UserServiceTest {
 		
 		entity.setAdresses(listAdress);
 		
-		assertEquals("France", this.userService.retrieveAdressesByUserId(entity).get(0).getCountry());
+		try {
+			assertEquals("France", this.userService.retrieveAdressesByUserId(entity).get(0).getCountry());
+		} catch (AdressNotFoundException e) {
+			Mockito.doNothing();
+		}
 
 	}
 	
-	@Test
-	public void retrieveAdressesByUserIdTestEmptyList() {
-		UserEntity entityOne = new UserEntity();
-		UserEntity entityTwo = new UserEntity();
-		List<AdressEntity> listAdress = new ArrayList<AdressEntity>();
-		entityOne.setAdresses(null);
-		entityTwo.setAdresses(listAdress);
-		
-		assertTrue(this.userService.retrieveAdressesByUserId(entityOne).isEmpty());
-		assertTrue(this.userService.retrieveAdressesByUserId(entityTwo).isEmpty());
+	@Test(expected = AdressNotFoundException.class)
+	public void retrieveAdressesByUserIdTestEmptyList() throws AdressNotFoundException {
+		UserEntity entity = new UserEntity();		
+		this.userService.retrieveAdressesByUserId(entity);
 	}
 }
