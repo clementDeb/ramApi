@@ -19,7 +19,6 @@ import com.ram.api.converter.AdressConverter;
 import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.Adress;
-import com.ram.api.model.User;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.AdressService;

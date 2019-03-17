@@ -1,16 +1,12 @@
 package com.ram.api.user;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.hamcrest.collection.IsEmptyCollection;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -22,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.ram.api.RamApi;
 import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.UserNotFoundException;
-import com.ram.api.model.Adress;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.UserRepository;

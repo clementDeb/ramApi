@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.persistance.AdressEntity;
-import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.AdressRepository;
 import com.ram.api.service.AdressService;
 

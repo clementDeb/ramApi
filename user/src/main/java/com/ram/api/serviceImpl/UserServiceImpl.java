@@ -1,9 +1,6 @@
 package com.ram.api.serviceImpl;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,10 +18,8 @@ import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
-import com.ram.api.persistance.PersonEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.UserRepository;
-import com.ram.api.repositories.superclass.PersonRepository;
 import com.ram.api.service.PersonService;
 import com.ram.api.service.UserService;
 
