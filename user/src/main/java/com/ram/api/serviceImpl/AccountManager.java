@@ -1,11 +1,11 @@
 package com.ram.api.serviceImpl;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import antlr.collections.List;
 
 public class AccountManager implements PasswordEncoder{
 	
