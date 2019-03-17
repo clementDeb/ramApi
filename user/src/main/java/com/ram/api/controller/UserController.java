@@ -20,6 +20,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ram.api.converter.AdressConverter;
 import com.ram.api.converter.PersonConverter;
+import com.ram.api.exceptions.AdressNotFoundException;
+import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.Adress;
 import com.ram.api.model.User;
@@ -48,7 +50,14 @@ public class UserController {
     public User createUser(@RequestBody User user) { 
 		log.debug("in createUser with user: " + user.toString());  	
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
-    	entity = userService.createAccount(entity);
+    	try {
+			entity = userService.createAccount(entity);
+		} catch (EmailExistException e) {
+			String error = e.getMsg();
+			log.error("in retrieve createUser: " + error);
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND, error);
+		}
         return (User) converter.toPerson(entity);
     }
     
@@ -98,11 +107,19 @@ public class UserController {
 			entity = userService.findUserById(id);
 		} catch (UserNotFoundException e) {
 			String error = e.getMsg();
-			log.error("in retrieve User: " + error);
+			log.error("in retrieve retrieveAdressesByUserId: " + error);
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, error);		
 		}
-		List<AdressEntity> entityAdresses = userService.retrieveAdressesByUserId(entity);
+		List<AdressEntity> entityAdresses;
+		try {
+			entityAdresses = userService.retrieveAdressesByUserId(entity);
+		} catch (AdressNotFoundException e) {
+			String error = e.getMsg();
+			log.error("in retrieve retrieveAdressesByUserId: " + error);
+			throw new ResponseStatusException(
+					HttpStatus.NOT_FOUND, error);
+		}
 		List<Adress> adresses = adressConverter.listEntityToDto(entityAdresses);
     	return adresses;
     }

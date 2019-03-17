@@ -3,6 +3,7 @@ package com.ram.api.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
@@ -24,5 +25,5 @@ public interface UserService {
 	
 	public UserEntity findUserById(long id) throws UserNotFoundException;
 	
-	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity);
+	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity) throws AdressNotFoundException;
 }

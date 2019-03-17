@@ -45,19 +45,19 @@ public class UserServiceImpl implements UserService{
 	public UserEntity createAccount(UserEntity entity) throws EmailExistException {
 		log.debug("in createAccount");
 		AccountManager accManager = new AccountManager();
-		boolean loginExist = loginExist(entity.getLogin, accManager);
+		boolean loginExist = loginExist(entity.getLogin(), accManager);
 		if (loginExist) {
 			throw new EmailExistException(ExceptionMessage.EMAIL_ALREADY_EXISTS);
 		}
 		Instant creationTimestamp = personService.retrieveCreationDate();
 		entity.setCreationDate(creationTimestamp);
-		entity.setPassword(accManager.encode(entity.getPassword));
+		entity.setPassword(accManager.encode(entity.getPassword()));
 		return userRepository.save(entity);
 	}
 	
 	private boolean loginExist (String login, AccountManager accManager) {
-		List logins = userRepository.findAllLogin();		
-		return accManager.loginExist(login, logins);;
+		List<String> logins = userRepository.findAllLogin();		
+		return accManager.loginExist(login, logins);
 	}
 
 	@Override
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	@CachePut
-	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity){
+	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity) throws AdressNotFoundException{
 		List <AdressEntity> listAdress = entity.getAdresses();
 		if (null != listAdress && false == listAdress.isEmpty()) {
 			listAdress = listAdress.stream()
