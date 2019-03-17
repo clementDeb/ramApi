@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("/home/ramApi/exceptionMessage.properties")
+@PropertySource(value="file:/home/ramApi/exceptionMessage.properties")
 public class ExceptionMessage {
 	
 	@Value("${exception.USER_NOT_FOUND_MSG}")
