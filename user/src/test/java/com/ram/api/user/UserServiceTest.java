@@ -13,6 +13,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.ram.api.RamApi;
@@ -26,29 +31,51 @@ import com.ram.api.service.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RamApi.class)
 public class UserServiceTest {
+	
+	//Mock the cacheManager config
+//	@Configuration
+//	@EnableCaching
+//	static class Config {
+//
+//		@Bean
+//		CacheManager cacheManager() {
+//			return new ConcurrentMapCacheManager();
+//		}
+//	}
 
 	@MockBean(UserRepository.class)
 	private UserRepository userRepository;
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	CacheManager manager;
 
 	@Test
 	public void retrieveUserTest() {
 
 		String login = "Login";
 
-		UserEntity entity = new UserEntity();
-		entity.setFirstName("firstName");
-		entity.setLastName("lastName");
-		entity.setId(3);
+		UserEntity entityOne = new UserEntity();
+		entityOne.setFirstName("firstNameOne");
+		entityOne.setLastName("lastNameOne");
+		entityOne.setId(1);
+		
+		UserEntity entityTwo = new UserEntity();
+		entityTwo.setFirstName("firstNameTwo");
+		entityTwo.setLastName("lastNameTwo");
+		entityTwo.setId(3);
 
-		Mockito.when(this.userRepository.findUserByLogin(login)).thenReturn(Optional.of(entity));
+		Mockito.when(this.userRepository.findUserByLogin(login)).thenReturn(Optional.of(entityOne), Optional.of(entityTwo));
 
 		try {
-			assertEquals("firstName", this.userService.retrieveUser(login).getFirstName());
-			assertEquals("lastName", this.userService.retrieveUser(login).getLastName());
-			assertEquals(3, this.userService.retrieveUser(login).getId());
+			//firstcall
+			assertEquals(entityOne, this.userService.retrieveUser(login));
+			//second call
+			assertEquals(entityOne, this.userService.retrieveUser(login));
+			//assertEquals("firstName", this.userService.retrieveUser(login).getFirstName());
+			//assertEquals("lastName", this.userService.retrieveUser(login).getLastName());
+			//assertEquals(3, this.userService.retrieveUser(login).getId());
 		} catch (UserNotFoundException e) {
 			Mockito.doNothing();
 		}

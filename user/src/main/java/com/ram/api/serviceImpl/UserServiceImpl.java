@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
-	@Cacheable
+	@Cacheable(value="user")
 	public UserEntity retrieveUser(String login) throws UserNotFoundException {
 		log.debug("in retrieveUser");
 		Optional<UserEntity> userOptional = userRepository.findUserByLogin(login);
@@ -66,14 +66,14 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	@Transactional
-	@CachePut
+	@CachePut(value="user")
 	public UserEntity updateUser(UserEntity entity) {
 		log.debug("in updateUser");
 		return userRepository.save(entity);
 	}
 
 	@Override
-	@CacheEvict
+	@CacheEvict(value="user")
 	public void deleteUser(UserEntity entity) {
 		log.debug("in deleteUser");
 		userRepository.delete(entity);		
