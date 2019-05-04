@@ -41,13 +41,14 @@ public class UserServiceImpl implements UserService{
 		log.debug("in createAccount");
 		AccountManager accManager = new AccountManager();
 		boolean loginExist = loginExist(entity.getLogin(), accManager);
-		if (loginExist) {
+		if (!loginExist) {
+			entity.setCreationDate(personService.retrieveCreationDate());
+			entity.setPassword(accManager.encode(entity.getPassword()));
+			return userRepository.save(entity);			
+		}else {
 			throw new EmailExistException(ExceptionMessage.EMAIL_ALREADY_EXISTS);
 		}
-		Instant creationTimestamp = personService.retrieveCreationDate();
-		entity.setCreationDate(creationTimestamp);
-		entity.setPassword(accManager.encode(entity.getPassword()));
-		return userRepository.save(entity);
+
 	}
 	
 	private boolean loginExist (String login, AccountManager accManager) {
