@@ -1,4 +1,4 @@
-package com.ram.api.user;
+package com.ram.api.test;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,17 +31,6 @@ import com.ram.api.service.UserService;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RamApi.class)
 public class UserServiceTest {
-	
-	//Mock the cacheManager config
-//	@Configuration
-//	@EnableCaching
-//	static class Config {
-//
-//		@Bean
-//		CacheManager cacheManager() {
-//			return new ConcurrentMapCacheManager();
-//		}
-//	}
 
 	@MockBean(UserRepository.class)
 	private UserRepository userRepository;
@@ -73,9 +62,6 @@ public class UserServiceTest {
 			assertEquals(entityOne, this.userService.retrieveUser(login));
 			//second call
 			assertEquals(entityOne, this.userService.retrieveUser(login));
-			//assertEquals("firstName", this.userService.retrieveUser(login).getFirstName());
-			//assertEquals("lastName", this.userService.retrieveUser(login).getLastName());
-			//assertEquals(3, this.userService.retrieveUser(login).getId());
 		} catch (UserNotFoundException e) {
 			Mockito.doNothing();
 		}

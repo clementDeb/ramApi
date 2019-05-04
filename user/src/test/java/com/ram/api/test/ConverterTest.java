@@ -1,4 +1,4 @@
-package com.ram.api.user;
+package com.ram.api.test;
 
 import static org.junit.Assert.assertEquals;
 
