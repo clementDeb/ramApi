@@ -1,6 +1,5 @@
 package com.ram.api.serviceImpl;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
+@CacheConfig(cacheManager="userCacheManager")
 public class UserServiceImpl implements UserService{
 	
 	@Autowired
