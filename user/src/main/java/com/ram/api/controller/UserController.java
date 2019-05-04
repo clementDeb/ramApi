@@ -2,6 +2,8 @@ package com.ram.api.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,10 +28,10 @@ import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.UserService;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@Log4j2
+@Slf4j
 public class UserController {
 	
 	@Autowired
@@ -41,7 +43,7 @@ public class UserController {
 	@Autowired
 	AdressConverter adressConverter;
 	
-	@CrossOrigin(origins="http://127.0.0.1:3000")
+	//@CrossOrigin(origins="http://127.0.0.1:3000")
 	@ResponseBody
     @RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) { 
