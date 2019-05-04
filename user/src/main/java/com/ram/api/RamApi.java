@@ -24,8 +24,14 @@ public class RamApi
     }
     
     @Bean
-    public CacheManager cacheManager() {
+    public CacheManager userCacheManager() {
     	ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager("user");
+        return cacheManager;
+    }
+    
+    @Bean
+    public CacheManager adressCacheManager() {
+    	ConcurrentMapCacheManager cacheManager = new ConcurrentMapCacheManager("adress");
         return cacheManager;
     }
     
