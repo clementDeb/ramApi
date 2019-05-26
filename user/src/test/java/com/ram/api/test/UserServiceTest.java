@@ -14,14 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.ram.api.RamApi;
 import com.ram.api.exceptions.AdressNotFoundException;
+import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
@@ -37,8 +34,43 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
+	
 	@Autowired
 	CacheManager manager;
+	
+	@Test
+	public void createAccountTest() {
+		UserEntity entityOne = new UserEntity();
+		entityOne.setFirstName("firstNameOne");
+		entityOne.setLastName("lastNameOne");
+		entityOne.setId(1);
+		entityOne.setLogin("loginMock");
+		
+		List<String> logins = new ArrayList<String>();
+		logins.add("loginMock");
+		
+		Mockito.when(userRepository.findAllLogin()).thenReturn(logins);
+		Mockito.when(userRepository.save(entityOne)).thenReturn(entityOne);
+				
+		try {
+			assertEquals(entityOne, userService.createAccount(entityOne));
+		} catch (EmailExistException e) {
+			Mockito.doNothing();
+		}
+	}
+	
+	@Test(expected=EmailExistException.class)
+	public void createAccountWithExceptionTest() throws EmailExistException{
+		UserEntity entityOne = new UserEntity();
+		entityOne.setLogin("login");
+		
+		List<String> logins = new ArrayList<String>();
+		logins.add("loginMock");
+		
+		Mockito.when(userRepository.findAllLogin()).thenReturn(logins);
+		
+		userService.createAccount(entityOne);
+	}
 
 	@Test
 	public void retrieveUserTest() {
@@ -55,13 +87,13 @@ public class UserServiceTest {
 		entityTwo.setLastName("lastNameTwo");
 		entityTwo.setId(3);
 
-		Mockito.when(this.userRepository.findUserByLogin(login)).thenReturn(Optional.of(entityOne), Optional.of(entityTwo));
+		Mockito.when(userRepository.findUserByLogin(login)).thenReturn(Optional.of(entityOne), Optional.of(entityTwo));
 
 		try {
 			//firstcall
-			assertEquals(entityOne, this.userService.retrieveUser(login));
+			assertEquals(entityOne, userService.retrieveUser(login));
 			//second call
-			assertEquals(entityOne, this.userService.retrieveUser(login));
+			assertEquals(entityOne, userService.retrieveUser(login));
 		} catch (UserNotFoundException e) {
 			Mockito.doNothing();
 		}
@@ -71,10 +103,8 @@ public class UserServiceTest {
 	@Test(expected = UserNotFoundException.class)
 	public void retrieveUserWithExceptionTest() throws UserNotFoundException {
 		String login = "false";
-		Mockito.when(this.userRepository.findUserByLogin(login)).thenReturn(Optional.empty());
-
-		this.userService.retrieveUser(login);
-
+		Mockito.when(userRepository.findUserByLogin(login)).thenReturn(Optional.empty());
+		userService.retrieveUser(login);
 	}
 
 	@Test
@@ -87,9 +117,9 @@ public class UserServiceTest {
 		entity.setId(3);
 		entity.setLogin("Login");
 
-		Mockito.when(this.userRepository.save(entity)).thenReturn(entity);
+		Mockito.when(userRepository.save(entity)).thenReturn(entity);
 
-		assertEquals(loginModified, this.userService.updateUser(entity).getLogin());
+		assertEquals(loginModified, userService.updateUser(entity).getLogin());
 	}
 	
 	@Test
@@ -116,7 +146,7 @@ public class UserServiceTest {
 		entity.setAdresses(listAdress);
 		
 		try {
-			assertEquals("France", this.userService.retrieveAdressesByUserId(entity).get(0).getCountry());
+			assertEquals("France", userService.retrieveAdressesByUserId(entity).get(0).getCountry());
 		} catch (AdressNotFoundException e) {
 			Mockito.doNothing();
 		}
@@ -126,6 +156,6 @@ public class UserServiceTest {
 	@Test(expected = AdressNotFoundException.class)
 	public void retrieveAdressesByUserIdTestEmptyList() throws AdressNotFoundException {
 		UserEntity entity = new UserEntity();		
-		this.userService.retrieveAdressesByUserId(entity);
+		userService.retrieveAdressesByUserId(entity);
 	}
 }
