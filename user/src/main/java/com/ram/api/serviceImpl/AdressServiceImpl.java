@@ -14,20 +14,21 @@ import com.ram.api.persistance.AdressEntity;
 import com.ram.api.repositories.AdressRepository;
 import com.ram.api.service.AdressService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
 @CacheConfig(cacheManager="adressCacheManager")
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 public class AdressServiceImpl implements AdressService{
 	
 	private static final String ADRESS_NOT_FOUND_MSG = "adress not found";
 	
-	@Autowired
-	AdressRepository adressRepository;
+	//@Autowired
+	private final AdressRepository adressRepository;
 
 	@Override
-	@Cacheable
 	public AdressEntity createAdress(AdressEntity adress) {
 		adress = adressRepository.save(adress);
 		return adress;

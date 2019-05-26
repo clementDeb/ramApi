@@ -19,28 +19,32 @@ import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
+import com.ram.api.repositories.AdressRepository;
 import com.ram.api.repositories.UserRepository;
 import com.ram.api.service.PersonService;
 import com.ram.api.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Service
 @Log4j2
 @CacheConfig(cacheManager="userCacheManager")
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 public class UserServiceImpl implements UserService{
 	
-	@Autowired
-	UserRepository userRepository;
+	//@Autowired
+	private final UserRepository userRepository;
 	
-	@Autowired
-	PersonService personService;
+	//@Autowired
+	private final PersonService personService;
+	
+	private final AccountManager accManager;
 
 	@Override
 	@Transactional
 	public UserEntity createAccount(UserEntity entity) throws EmailExistException {
 		log.debug("in createAccount");
-		AccountManager accManager = new AccountManager();
 		boolean loginExist = loginExist(entity.getLogin(), accManager);
 		if (!loginExist) {
 			entity.setCreationDate(personService.retrieveCreationDate());
@@ -49,7 +53,6 @@ public class UserServiceImpl implements UserService{
 		}else {
 			throw new EmailExistException(ExceptionMessage.EMAIL_ALREADY_EXISTS);
 		}
-
 	}
 	
 	private boolean loginExist (String login, AccountManager accManager) {

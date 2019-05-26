@@ -28,20 +28,22 @@ import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 public class UserController {
 	
-	@Autowired
-	UserService userService;
+	//@Autowired
+	private final UserService userService;
 	
-	@Autowired
-	PersonConverter converter;
+	//@Autowired
+	private final PersonConverter converter;
 	
-	@Autowired
-	AdressConverter adressConverter;
+	//@Autowired
+	private final AdressConverter adressConverter;
 	
 	//@CrossOrigin(origins="http://127.0.0.1:3000")
 	@ResponseBody

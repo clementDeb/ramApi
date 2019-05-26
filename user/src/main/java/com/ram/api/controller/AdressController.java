@@ -26,21 +26,23 @@ import com.ram.api.persistance.UserEntity;
 import com.ram.api.service.AdressService;
 import com.ram.api.service.UserService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 public class AdressController {
 	
-	@Autowired
-	AdressService adressService;
+	//@Autowired
+	private final AdressService adressService;
 	
-	@Autowired
-	AdressConverter adressConverter;
+	//@Autowired
+	private final AdressConverter adressConverter;
 	
-	@Autowired
-	UserService userService;
+	//@Autowired
+	private final UserService userService;
 	
 		
 	@ResponseBody
