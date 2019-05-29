@@ -24,6 +24,7 @@ import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
 import com.ram.api.repositories.UserRepository;
 import com.ram.api.service.UserService;
+import com.ram.api.serviceImpl.LoginManager;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RamApi.class)
@@ -31,6 +32,9 @@ public class UserServiceTest {
 
 	@MockBean(UserRepository.class)
 	private UserRepository userRepository;
+	
+	@MockBean(LoginManager.class)
+	private LoginManager loginManager;
 
 	@Autowired
 	private UserService userService;
@@ -41,19 +45,28 @@ public class UserServiceTest {
 	@Test
 	public void createAccountTest() {
 		UserEntity entityOne = new UserEntity();
-		entityOne.setFirstName("firstNameOne");
-		entityOne.setLastName("lastNameOne");
+		entityOne.setFirstName("firstName");
+		entityOne.setLastName("lastName");
 		entityOne.setId(1);
-		entityOne.setLogin("loginMock");
+		entityOne.setLogin("login");
+		entityOne.setPassword("password");
+		
+		UserEntity entity = new UserEntity();
+		entity.setFirstName("firstName");
+		entity.setLastName("lastName");
+		entity.setId(1);
+		entity.setLogin("login");
+		entity.setPassword("password");
 		
 		List<String> logins = new ArrayList<String>();
 		logins.add("loginMock");
 		
 		Mockito.when(userRepository.findAllLogin()).thenReturn(logins);
-		Mockito.when(userRepository.save(entityOne)).thenReturn(entityOne);
-				
+		Mockito.when(loginManager.encode(Mockito.anyString())).thenReturn(entityOne.getPassword());
+		Mockito.when(userRepository.save(entityOne)).thenReturn(entity);
+		
 		try {
-			assertEquals(entityOne, userService.createAccount(entityOne));
+			assertEquals(entity, userService.createAccount(entityOne));
 		} catch (EmailExistException e) {
 			Mockito.doNothing();
 		}
@@ -61,15 +74,16 @@ public class UserServiceTest {
 	
 	@Test(expected=EmailExistException.class)
 	public void createAccountWithExceptionTest() throws EmailExistException{
-		UserEntity entityOne = new UserEntity();
-		entityOne.setLogin("login");
+		UserEntity entity = new UserEntity();
+		entity.setLogin("loginMock");
 		
 		List<String> logins = new ArrayList<String>();
 		logins.add("loginMock");
 		
 		Mockito.when(userRepository.findAllLogin()).thenReturn(logins);
+		Mockito.when(loginManager.loginExist(entity.getLogin(), logins)).thenReturn(true);
 		
-		userService.createAccount(entityOne);
+		userService.createAccount(entity);
 	}
 
 	@Test
