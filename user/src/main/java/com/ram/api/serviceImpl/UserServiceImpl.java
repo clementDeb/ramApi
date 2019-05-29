@@ -19,7 +19,6 @@ import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
-import com.ram.api.repositories.AdressRepository;
 import com.ram.api.repositories.UserRepository;
 import com.ram.api.service.PersonService;
 import com.ram.api.service.UserService;
@@ -39,23 +38,23 @@ public class UserServiceImpl implements UserService{
 	//@Autowired
 	private final PersonService personService;
 	
-	private final AccountManager accManager;
+	private final LoginManager loginManager;
 
 	@Override
 	@Transactional
 	public UserEntity createAccount(UserEntity entity) throws EmailExistException {
 		log.debug("in createAccount");
-		boolean loginExist = loginExist(entity.getLogin(), accManager);
+		boolean loginExist = loginExist(entity.getLogin(), loginManager);
 		if (!loginExist) {
 			entity.setCreationDate(personService.retrieveCreationDate());
-			entity.setPassword(accManager.encode(entity.getPassword()));
+			entity.setPassword(loginManager.encode(entity.getPassword()));
 			return userRepository.save(entity);			
 		}else {
 			throw new EmailExistException(ExceptionMessage.EMAIL_ALREADY_EXISTS);
 		}
 	}
 	
-	private boolean loginExist (String login, AccountManager accManager) {
+	private boolean loginExist (String login, LoginManager accManager) {
 		List<String> logins = userRepository.findAllLogin();		
 		return accManager.loginExist(login, logins);
 	}
@@ -84,7 +83,7 @@ public class UserServiceImpl implements UserService{
 		userRepository.delete(entity);		
 	}
 	
-	@Cacheable
+	@Cacheable(value="user")
 	@Transactional
 	public UserEntity findUserById(long id) throws UserNotFoundException {
 		Optional<UserEntity> entity = userRepository.findById(id);
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Override
 	@Transactional
-	@CachePut
+	@CachePut(value="user")
 	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity) throws AdressNotFoundException{
 		List <AdressEntity> listAdress = entity.getAdresses();
 		if (null != listAdress && false == listAdress.isEmpty()) {
