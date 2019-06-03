@@ -1,5 +1,6 @@
 package com.ram.api.serviceImpl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import com.ram.api.exceptions.AdressExistException;
 import com.ram.api.exceptions.AdressNotFoundException;
+import com.ram.api.exceptions.MainException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.repositories.AdressRepository;
 import com.ram.api.service.AdressService;
@@ -25,13 +28,19 @@ public class AdressServiceImpl implements AdressService{
 	
 	private static final String ADRESS_NOT_FOUND_MSG = "adress not found";
 	
+	private static final String ADRESS_EXIST_MSG = "adress already exist";
+	
 	//@Autowired
 	private final AdressRepository adressRepository;
 
 	@Override
-	public AdressEntity createAdress(AdressEntity adress) {
-		adress = adressRepository.save(adress);
-		return adress;
+	public AdressEntity createAdress(AdressEntity adress) throws AdressExistException{
+		boolean exist = checkIfExist(adress, adress.getPersonId());
+		if (!exist) {
+			return adressRepository.save(adress);
+		}else {
+			throw new AdressExistException(ADRESS_EXIST_MSG);
+		}
 	}
 
 	@Override
@@ -52,6 +61,11 @@ public class AdressServiceImpl implements AdressService{
 	@CacheEvict(value="adress")
 	public void deleteAdress(AdressEntity entity) {
 		adressRepository.delete(entity);
+	}
+	
+	private boolean checkIfExist(AdressEntity adress, long personId) {
+		List<AdressEntity> adresses = (List<AdressEntity>) adressRepository.findAllByPersonId(personId);
+		return adresses.stream().anyMatch(adr -> adr.equals(adress));
 	}
 
 }

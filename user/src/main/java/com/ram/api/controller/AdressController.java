@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ram.api.converter.AdressConverter;
+import com.ram.api.exceptions.AdressExistException;
 import com.ram.api.exceptions.AdressNotFoundException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.model.Adress;
@@ -60,7 +61,12 @@ public class AdressController {
 		}
 		
 		AdressEntity adressEntity = adressConverter.dtoToEntity(adress);
-		adressEntity = adressService.createAdress(adressEntity);
+		try {
+			adressEntity = adressService.createAdress(adressEntity);
+		} catch (AdressExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		List<AdressEntity> adresses = new ArrayList<>();
 		adresses.add(adressEntity);
 		//update the user

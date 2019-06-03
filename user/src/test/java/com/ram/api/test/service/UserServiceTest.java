@@ -1,9 +1,10 @@
-package com.ram.api.test;
+package com.ram.api.test.service;
 
 import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
+import com.ram.api.repositories.AdressRepository;
 import com.ram.api.repositories.UserRepository;
 import com.ram.api.service.UserService;
 import com.ram.api.serviceImpl.LoginManager;
@@ -32,6 +34,9 @@ public class UserServiceTest {
 
 	@MockBean(UserRepository.class)
 	private UserRepository userRepository;
+	
+	@MockBean(AdressRepository.class)
+	private AdressRepository adressRepository;
 	
 	@MockBean(LoginManager.class)
 	private LoginManager loginManager;
@@ -139,7 +144,6 @@ public class UserServiceTest {
 	@Test
 	public void retrieveAdressesByUserIdTest() {
 		List<AdressEntity> listAdress = new ArrayList<AdressEntity>();
-		UserEntity entity = new UserEntity();
 		AdressEntity adrOne = new AdressEntity();
 		AdressEntity adrTwo = new AdressEntity();
 		
@@ -157,10 +161,11 @@ public class UserServiceTest {
 		listAdress.add(adrOne);
 		listAdress.add(adrTwo);
 		
-		entity.setAdresses(listAdress);
+		Mockito.when(adressRepository.findAllByPersonId(1)).thenReturn(listAdress);		
 		
 		try {
-			assertEquals("France", userService.retrieveAdressesByUserId(entity).get(0).getCountry());
+			List<AdressEntity> expectedList = userService.retrieveAdressesByUserId(1);
+			assertEquals(2, expectedList.size());
 		} catch (AdressNotFoundException e) {
 			Mockito.doNothing();
 		}
@@ -168,8 +173,8 @@ public class UserServiceTest {
 	}
 	
 	@Test(expected = AdressNotFoundException.class)
-	public void retrieveAdressesByUserIdTestEmptyList() throws AdressNotFoundException {
-		UserEntity entity = new UserEntity();		
-		userService.retrieveAdressesByUserId(entity);
+	public void retrieveAdressesByUserTestEmptyList() throws AdressNotFoundException {
+		Mockito.when(adressRepository.findAllByPersonId(1)).thenReturn(Collections.emptyList());		
+		userService.retrieveAdressesByUserId(1);
 	}
 }

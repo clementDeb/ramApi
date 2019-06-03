@@ -21,7 +21,8 @@ public class Adress{
 	private String adressLineThree;
 	private String country;
 	private String zipCode;
-	private int houseNumber;
+	private Integer houseNumber;
+	private Integer personId;
 	
 
 }

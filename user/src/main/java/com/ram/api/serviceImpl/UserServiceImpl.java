@@ -19,6 +19,7 @@ import com.ram.api.exceptions.EmailExistException;
 import com.ram.api.exceptions.UserNotFoundException;
 import com.ram.api.persistance.AdressEntity;
 import com.ram.api.persistance.UserEntity;
+import com.ram.api.repositories.AdressRepository;
 import com.ram.api.repositories.UserRepository;
 import com.ram.api.service.PersonService;
 import com.ram.api.service.UserService;
@@ -32,10 +33,10 @@ import lombok.extern.log4j.Log4j2;
 @RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 public class UserServiceImpl implements UserService{
 	
-	//@Autowired
 	private final UserRepository userRepository;
 	
-	//@Autowired
+	private final AdressRepository adressRepository;
+
 	private final PersonService personService;
 	
 	private final LoginManager loginManager;
@@ -93,9 +94,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	@Transactional
 	@CachePut(value="user")
-	public List<AdressEntity> retrieveAdressesByUserId (UserEntity entity) throws AdressNotFoundException{
-		List <AdressEntity> listAdress = entity.getAdresses();
-		if (null != listAdress && false == listAdress.isEmpty()) {
+	public List<AdressEntity> retrieveAdressesByUserId (long id) throws AdressNotFoundException{
+		List <AdressEntity> listAdress = adressRepository.findAllByPersonId(id);
+		if (!listAdress.isEmpty()) {
 			listAdress = listAdress.stream()
 						.sorted()
 						.collect(Collectors.toList());

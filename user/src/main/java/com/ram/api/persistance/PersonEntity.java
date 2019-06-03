@@ -48,9 +48,9 @@ public class PersonEntity implements Serializable{
 	private Instant creationDate;
 	@Column(name="genderId")
 	private int genderId;
-	@Column(name="adress")
+	@Column(name="adressId")
 	@OneToMany(fetch=FetchType.LAZY)
-	@JoinColumn(name = "person_id")
+	@JoinColumn(name = "personId")
 	private List<AdressEntity> adresses;
 
 }

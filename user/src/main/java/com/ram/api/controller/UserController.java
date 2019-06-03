@@ -35,14 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor(onConstructor=@__({@Autowired}))
 public class UserController {
-	
-	//@Autowired
+
 	private final UserService userService;
-	
-	//@Autowired
+
 	private final PersonConverter converter;
-	
-	//@Autowired
+
 	private final AdressConverter adressConverter;
 	
 	//@CrossOrigin(origins="http://127.0.0.1:3000")
@@ -102,19 +99,9 @@ public class UserController {
     
     @RequestMapping(value="/users/{userId}/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Adress> retrieveAdressesByUserId (@PathVariable("userId") long id) {
-    	log.debug("in retrieveUser with login: " + id);
-    	UserEntity entity = new UserEntity();
-		try {
-			entity = userService.findUserById(id);
-		} catch (UserNotFoundException e) {
-			String error = e.getMsg();
-			log.error("in retrieve retrieveAdressesByUserId: " + error);
-			throw new ResponseStatusException(
-					HttpStatus.NOT_FOUND, error);		
-		}
 		List<AdressEntity> entityAdresses;
 		try {
-			entityAdresses = userService.retrieveAdressesByUserId(entity);
+			entityAdresses = userService.retrieveAdressesByUserId(id);
 		} catch (AdressNotFoundException e) {
 			String error = e.getMsg();
 			log.error("in retrieve retrieveAdressesByUserId: " + error);

@@ -42,6 +42,8 @@ public class AdressEntity implements Comparable <AdressEntity>{
 	private int houseNumber;
 	@Column(name="creationDate")
 	private Instant creationDate;
+	@Column(name="personId")
+	private Integer personId;
 	
 	@Override
 	public int compareTo(AdressEntity adr) {
