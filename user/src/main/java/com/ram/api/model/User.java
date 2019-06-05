@@ -1,5 +1,7 @@
 package com.ram.api.model;
 
+import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Component;
 
 import com.ram.api.model.superclass.Person;
@@ -18,9 +20,10 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 public class User extends Person{
 
-
+	@NotNull
 	@EqualsAndHashCode.Include
 	private String login;
+	@NotNull
 	@EqualsAndHashCode.Include
 	private String password;	
 

@@ -1,6 +1,9 @@
 package com.ram.api.model;
 
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Component;
 
 import com.ram.api.model.superclass.Person;
@@ -22,6 +25,7 @@ public class Adress{
 	private String country;
 	private String zipCode;
 	private Integer houseNumber;
+	@NotNull
 	private Integer personId;
 	
 

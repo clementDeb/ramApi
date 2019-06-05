@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -41,8 +42,10 @@ public class AdressEntity implements Comparable <AdressEntity>{
 	@Column(name="houseNumber")
 	private int houseNumber;
 	@Column(name="creationDate")
+	@EqualsAndHashCode.Exclude
 	private Instant creationDate;
 	@Column(name="personId")
+	@NotNull
 	private Integer personId;
 	
 	@Override
