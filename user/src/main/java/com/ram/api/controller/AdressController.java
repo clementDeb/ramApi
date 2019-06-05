@@ -8,7 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,20 +38,18 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @RequiredArgsConstructor(onConstructor=@__({@Autowired}))
+@RequestMapping(value="/adresses")
 public class AdressController {
 	
-	//@Autowired
 	private final AdressService adressService;
-	
-	//@Autowired
+
 	private final AdressConverter adressConverter;
-	
-	//@Autowired
+
 	private final UserService userService;
 	
 		
 	@ResponseBody
-    @RequestMapping(value="/adresses", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress createAdress(@RequestBody Adress adress, @RequestParam String userId) { 
 		log.debug("in createAdress with adress: " + adress.toString()); 
 		UserEntity userEntity = null;
@@ -76,7 +78,7 @@ public class AdressController {
         return adress;
     }
     
-    @RequestMapping(value="/adresses/{id}", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(value="/{adressId}", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress retrieveAdress (@PathVariable int adressId) {
     	log.debug("in retrieveAdress with adressId: " + adressId);
     	AdressEntity entity;
@@ -92,7 +94,7 @@ public class AdressController {
     	return adress;
     }
     
-    @RequestMapping(value="/adresses", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Adress updateAdress (@RequestBody Adress adress) {
     	log.debug("in updateUser");
     	AdressEntity entity = adressConverter.dtoToEntity(adress);
@@ -100,7 +102,7 @@ public class AdressController {
     	return adressConverter.entityToDto(entity);
     }
     
-    @RequestMapping(value="/adresses", method=RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteAdress (@RequestParam int adressId) {
     	log.debug("in deleteAdress with login: " + adressId);
     	AdressEntity entity = new AdressEntity();

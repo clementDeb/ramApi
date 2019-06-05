@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @RequiredArgsConstructor(onConstructor=@__({@Autowired}))
+@RequestMapping(value="/users")
 public class UserController {
 
 	private final UserService userService;
@@ -44,7 +49,7 @@ public class UserController {
 	
 	//@CrossOrigin(origins="http://127.0.0.1:3000")
 	@ResponseBody
-    @RequestMapping(value="/users", method=RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public User createUser(@RequestBody User user) { 
 		log.debug("in createUser with user: " + user.toString());  	
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
@@ -59,7 +64,7 @@ public class UserController {
         return (User) converter.toPerson(entity);
     }
     
-    @RequestMapping(value="/users", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User retrieveUser (@RequestParam String login) {
     	log.debug("in retrieveUser with login: " + login);
     	UserEntity entity = new UserEntity();
@@ -74,7 +79,7 @@ public class UserController {
     	return (User) converter.toPerson(entity);
     }
     
-    @RequestMapping(value="/users", method=RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User updateUser (@RequestBody User user) {
     	log.debug("in updateUser");
     	UserEntity entity = (UserEntity) converter.toPersonEntity(user);
@@ -82,7 +87,7 @@ public class UserController {
     	return (User) converter.toPerson(entity);
     }
     
-    @RequestMapping(value="/users", method=RequestMethod.DELETE, consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void deleteUser (@RequestParam String login) {
     	log.debug("in deleteUser with login: " + login);
     	UserEntity entity = new UserEntity();
@@ -97,7 +102,7 @@ public class UserController {
     	userService.deleteUser(entity);
     }
     
-    @RequestMapping(value="/users/{userId}/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value="/{userId}/adresses", method=RequestMethod.GET, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Adress> retrieveAdressesByUserId (@PathVariable("userId") long id) {
 		List<AdressEntity> entityAdresses;
 		try {
