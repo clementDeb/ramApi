@@ -4,6 +4,7 @@ package com.ram.api.test.service;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -41,11 +42,36 @@ public class AdressServiceTest {
 		
 		service.createAdress(input);
 		
-		Mockito.verify(repository.save(input),Mockito.never());
-				
+		Mockito.verify(repository.save(input),Mockito.never());				
+	}
+	
+	@Test
+	public void createAdressTest() throws AdressExistException {
+		AdressEntity input = retrieveAdress();
+		AdressEntity expected = retrieveExpected();
+		
+		Mockito.when(repository.findAllByPersonId(Mockito.anyLong()))
+			.thenReturn(Collections.singletonList(input));
+		Mockito.when(repository.save(Mockito.any()))
+			.thenReturn(expected);
+		
+		AdressEntity result = service.createAdress(expected);
+		
+		Mockito.verify(repository, Mockito.times(1)).save(expected);	
+		assertEquals(expected, result);
 	}
 	
 	private AdressEntity retrieveAdress() {
+		AdressEntity adress = new AdressEntity();
+		adress.setAdressLineOne("lineOne");
+		adress.setCountry("france");
+		adress.setHouseNumber(17);
+		adress.setZipCode("33520");
+		adress.setPersonId(1);
+		return adress;
+	}
+	
+	private AdressEntity retrieveExpected() {
 		AdressEntity adress = new AdressEntity();
 		adress.setAdressLineOne("lineOne");
 		adress.setCountry("france");
