@@ -30,7 +30,6 @@ public class AdressServiceImpl implements AdressService{
 	
 	private static final String ADRESS_EXIST_MSG = "adress already exist";
 	
-	//@Autowired
 	private final AdressRepository adressRepository;
 
 	@Override
